@@ -15,7 +15,7 @@ node_modules
 # .DS_Store is only for Mac users
 **/.DS_Store
 
-# README.MD is added to the .gitignore which means 
+# pnpm-lock.yaml is added to the .gitignore which means 
 # that on the next push it won't be updated instead
 # it'll be removed from GitHub
-README.md
+pnpm-lock.yaml
