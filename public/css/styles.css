@@ -33,6 +33,10 @@ header{
   margin: 0px;
   margin-bottom: 0px;
 }
+li a{
+  text-decoration: none;
+  color: white;
+}
 .updates_reviews{
   display: flex;
   justify-content: space-around;
