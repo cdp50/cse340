@@ -4,7 +4,7 @@ const pool = require("../database/")
  *  Get all classification data
  * ************************** */
 async function getClassifications(){
-  console.log(await pool.query("SELECT * FROM public.classification ORDER BY classification_name"))
+  // console.log(await pool.query("SELECT * FROM public.classification ORDER BY classification_name"))
   return await pool.query("SELECT * FROM public.classification ORDER BY classification_name")
 }
 

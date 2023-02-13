@@ -8,7 +8,9 @@ invCont.buildByClassification = async function (req, res, next) {
     let data = await invModel.getVehiclesByClassificationId(classificationId)
     let nav = await utilities.getNav()
     const className = data[0].classification_name
-    res.render(".inventory/classification-view", {
+    // console.log(data);
+    // console.log(className);
+    res.render("./inventory/classification-view", {
         title: className + " vehicles",
         nav, 
         message: null,
