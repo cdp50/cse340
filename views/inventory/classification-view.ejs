@@ -1,6 +1,5 @@
 <% if (title) { %>
 <h1><%= title %></h1>
-
 <% } else { 
       res.redirect('/') 
 } %>
@@ -14,12 +13,16 @@
       <%
       data.forEach(vehicle => { %>
       <li>
-            <a class="image-link" href="../../inv/detail/<%= vehicle.inv_id %>" title="View <%= vehicle.inv_make %> <%= vehicle.inv_model %> details"><img src="<%= vehicle.inv_thumbnail %>" alt=" Image of <%= vehicle.inv_make %> <%= vehicle.inv_model %> on CSE Motors"></a>
+            <a class="image-link" href="../../inv/detail/<%=vehicle.inv_id%>" title="View <%= vehicle.inv_make %><%= vehicle.inv_model %> details"><img src="<%= vehicle.inv_thumbnail %>" alt=" Image of <%= vehicle.inv_make %> <%= vehicle.inv_model %> on CSE Motors"></a>
             <div class="name-price">
                   <hr />
                   <h2> 
-                        <a href="../../inv/detail/<%= vehicle.inv_id %>" title="View <%= vehicle.inv_make %> <%= vehicle.inv_model %> details">
-                              <%= vehicle.inv_make %> <%= vehicle.inv_model %> </a> </h2>
+                  <a href="../../inv/detail/<%= vehicle.inv_id %>" title="View <%= vehicle.inv_make %> <%= vehicle.inv_model %> details"><%= vehicle.inv_make %> <%= vehicle.inv_model %> </a> </h2>
                   <span>$<%= new Intl.NumberFormat('en-US').format(vehicle.inv_price) %></span>
             </div>
-      </li> <% }) %></ul><% } else { %><p class="notice">Sorry, no matching vehicles could be found.</p><% } %>
+      </li>
+      <% }) %>
+</ul>
+<% } else { %>
+<p class="notice">Sorry, no matching vehicles could be found.</p>
+<% } %>
