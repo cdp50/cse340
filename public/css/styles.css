@@ -14,7 +14,7 @@ header{
   justify-content: space-between;
 }
 .accountLink a{
-  padding-right: 7rem;
+  padding-right: 2rem;
   /* padding-top: 7rem; */
   text-decoration: none;
   color: black;
@@ -32,6 +32,69 @@ header{
   padding-right: 40px;
   margin: 0px;
   margin-bottom: 0px;
+}
+.copyright{
+  padding-left: 20px;
+}
+.name-price h2 a {
+  color:black;
+}
+.name-price{
+  text-align: center;
+  margin: 5px;
+}
+.description{
+  display: flex;
+  gap: 30px;
+  margin: 0 10px;
+}
+.detailImg img {
+  max-width: 100%;
+}
+.detailImg{
+  width: 60%;
+}
+.detailDescription {
+  width: 40%;
+}
+.detailDescription h2:nth-child(2){
+  font-size: larger;
+}
+.accountLink{
+  margin-top: 20%;
+}
+.detail {
+  font-weight: bold;
+}
+.name-price h2{
+  margin: 3px;
+  font-size:large;
+}
+.name-price span{
+  font-size: larger;
+}
+#inv-display{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 60px;
+  list-style: none;
+  padding-right: 50px;
+}
+p{
+  margin-bottom:0px ;
+}
+#inv-display li{
+  width: 204px;
+  border: solid 2px rgb(190, 188, 188); 
+  border-radius: 10px;
+}
+hr{
+border: solid 2px black;
+}
+.image-link img{
+  border-radius: 8px;
+  max-width: 200px;
 }
 li a{
   text-decoration: none;
@@ -69,6 +132,9 @@ li a{
 }
 .reviews ul li{
   margin-top: 33px;
+}
+ul {
+  margin-bottom:0px;
 }
 .image-container{
   display:flex;
@@ -140,9 +206,6 @@ footer{
   padding-bottom: 10px;
 }
 @media only screen and (max-width: 430px) {
-  .accountLink a {
-    padding: 1rem;
-  }
   body h1 {
     font-size:large;
     font-weight: bold;

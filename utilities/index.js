@@ -31,4 +31,33 @@ Util.getNav = async function (req, res, next) {
   return nav
 }
 
+/* ************************
+* Constructs the HTML body of the vehicle description
+ ************************** */
+Util.buildDescription = function (data1) {
+  const data = data1[0]
+  let detail = "<div class='detailImg'>"
+  detail += `<img src= ${data.inv_image}  alt=${data.inv_make + data.inv_model}>` +
+  "</div>" +
+  "<div class='detailDescription'>" +
+  `<h2>${data.inv_make + " " + data.inv_model} Details</h2>` +
+  `<h2> Price: $${new Intl.NumberFormat("en-US").format(data.inv_price)}</h2>`+
+  `<p><span class='detail'>Description: </span>${data.inv_description}</p>`+
+  `<p><span class='detail'>Color: </span>${data.inv_color}</p>`+
+  `<p><span class='detail'>Miles: </span>${new Intl.NumberFormat("en-US").format(data.inv_miles)}</p>` +
+  "</div>" 
+  return detail
+}
+
+/* ************************
+ * Builds the vehicle description
+ ************************** */
+Util.getDescription = async function (data) {
+  
+  const description = await Util.buildDescription(data)
+
+  return description
+}
+
+
 module.exports = Util

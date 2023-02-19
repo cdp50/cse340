@@ -1,6 +1,4 @@
 {
-    "cSpell.words": [
-        "Delorean"
-    ],
-    "liveServer.settings.port": 5501
+  "cSpell.words": ["Delorean", "getdetailsbyid"],
+  "liveServer.settings.port": 5501
 }
