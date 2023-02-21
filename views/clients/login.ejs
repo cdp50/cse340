@@ -1,0 +1,22 @@
+<div class="background">
+    <div class="login-box">
+        <% if (title) { %>
+        <h1><%= title %></h1>
+        <% } else { 
+              res.redirect('/') 
+        } %>
+
+        <% if (message) { %>
+        <p class="notice"><%= message %></p>
+        <% } %>
+    
+        <form action="/action_page.php">
+            <label for="username">Username: </label><br>
+            <input type="email" id="username" name="username" ><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password"><br><br>
+            <input type="submit" value="LOGIN">
+        </form> 
+        <p>No account? <a href="/clients/register">Sign-up</a></p>
+    </div>
+</div>

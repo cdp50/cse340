@@ -1,0 +1,28 @@
+<div class="background">
+    <div class="login-box">
+        <% if (title) { %>
+        <h1><%= title %></h1>
+        <% } else { 
+              res.redirect('/') 
+        } %>
+
+        <% if (message) { %>
+        <p class="notice"><%= message %></p>
+        <% } %>
+        <br>
+        
+        <form action="/clients/register" method="post">
+            <label for="firstname">First name: </label><br>
+            <input type="text" id="firstname" name="client_firstname" required><br>
+            <label for="lastname">Last name: </label><br>
+            <input type="text" id="lastname" name="client_lastname" required><br>
+            <label for="email">Email address: </label><br>
+            <input type="email" id="email" name="client_email" required><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="client_password" required><br>
+            <input type="checkbox" onclick="showPassword()">Show Password<br><br>
+            <input type="submit" value="LOGIN" required>
+        </form> 
+        <p>No account? <a href="/clients/registration">Sign-up</a></p>
+    </div>
+</div>
