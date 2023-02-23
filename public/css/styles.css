@@ -20,7 +20,44 @@ header{
   margin: auto;
   box-shadow: 5px 10px 18px #888888;
   border-radius: 10px;
+  background: linear-gradient(110deg, #cae8f3 60%, #09bfe3 60%);
 }
+.register-box{
+  border: solid .5px #e8e2e2;
+  width: 60%;
+  padding: 30px;
+  margin: auto;
+  box-shadow: 5px 10px 18px #888888;
+  border-radius: 10px;
+  background: linear-gradient(110deg, #cae8f3 60%, #09bfe3 60%);
+}
+.register-box input[name="classificationName"]{
+  margin-top:20px;
+  margin-bottom: 20px;
+}
+.yourName {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  align-items: baseline;
+}
+.email-password {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: baseline;
+}
+
+.email-password input {
+  width: 25em;
+}
+.background form {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
 input {
   border-radius: 5px;
   border: solid 1px #b4b0b0;
@@ -190,11 +227,33 @@ ul {
   border-left: 5px solid rgb(1,176,211);
   border-right: 5px solid rgb(1,176,211);
   width: 85%;
+  min-height: 500px;
   margin: 0 auto;
   background-color: white;
   padding-top: 50px;
   padding-bottom: 50px;
-  
+  text-align: center;
+}
+.buttons{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding-top: 30px;
+}
+.buttons button {
+  height: 5em;
+  width: 15em;
+  /* background: linear-gradient(110deg, #f2f3ca 60%, #f2f209 60%); */
+  background: #cae8f3;
+  font-size: large;
+  border-radius: 10px;
+  box-shadow: 5px 10px 18px #888888;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-weight: 700;
+}
+#button2 {
+  background: #09bfe3;
 }
 body{
   background-image: url("../images/site/checkerboard.jpg");
@@ -234,6 +293,21 @@ footer{
   body h1 {
     font-size:large;
     font-weight: bold;
+  }
+  .email-password{
+    gap: 0px;
+  }
+  .register-box form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .register-box{
+    width: 95%;
+  }
+  .yourName{
+    gap: 0px;
+    flex-direction: column;
   }
   .background{
     border-left: 5px solid rgb(1,176,211);

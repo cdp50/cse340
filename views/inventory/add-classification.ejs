@@ -1,0 +1,20 @@
+<div class="background">
+    <div class="register-box">
+        <% if (title) { %>
+        <h1><%= title %></h1>
+        <% } else { 
+              res.redirect('/') 
+        } %>
+
+        <% if (message) { %>
+        <p class="notice"><%= message %></p>
+        <% } %>
+        <br>
+        
+        <form action="add-classification" method="post">
+            <label for="classificationName">Name may NOT contain a space or special character of any kind</label><br>
+            <input type="text" name="classificationName" placeholder="e.g. Van "><br>
+            <input type="submit" value="Add Classification">
+        </form>
+    </div>
+</div>

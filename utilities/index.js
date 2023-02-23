@@ -32,6 +32,27 @@ Util.getNav = async function (req, res, next) {
 }
 
 /* ************************
+ * Constructs the dropdown HTML
+ ************************** */
+Util.buildDropdown = function (data) {
+  let list = '<select name="classification_id" id="classification_id">'
+  data.rows.forEach((row) => {
+    list += `<option value=${row.classification_id}>${row.classification_name}</option>`
+  })
+  list += '</select>'
+  return list
+}
+
+/* ************************
+ * Builds the dropdown menu
+ ************************** */
+Util.getDropdown = async function (req, res, next) {
+  let data = await invModel.getClassifications()
+  dropdown = Util.buildDropdown(data)
+  return dropdown
+}
+
+/* ************************
 * Constructs the HTML body of the vehicle description
  ************************** */
 Util.buildDescription = function (data1) {

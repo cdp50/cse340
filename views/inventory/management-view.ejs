@@ -1,0 +1,19 @@
+<div class="background">
+    <div class="register-box">
+        <% if (title) { %>
+        <h1><%= title %></h1>
+        <% } else { 
+              res.redirect('/') 
+        } %>
+
+        <% if (message) { %>
+        <p class="notice"><%= message %></p>
+        <% } %>
+        <br>
+        
+        <div class="buttons">
+            <a href=<%- addNewClassification %>><button id="button2">Add New Classification</button></a>
+            <a href=<%- addNewVehicle %>><button>Add New Vehicle</button></a>
+        </div>
+    </div>
+</div>

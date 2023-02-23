@@ -1,0 +1,70 @@
+<div class="background">
+    <div class="register-box">
+    <% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else { 
+          res.redirect('/') 
+    } %>
+
+    <% if (message) { %>
+    <p class="notice"><%= message %></p>
+    <% } %>
+    <br>
+    
+        <form action="add-vehicle" method="post">
+            <label for="classification_id">Choose a Classification:</label>
+            <%- dropdown %>
+            <br>
+            
+            <div class="email-password">
+                <label for="inv_make">Make: </label>
+                <input type="text" name="inv_make" placeholder="e.g. Toyota">
+            </div>
+
+            <div class="email-password">
+                <label for="inv_model">Model: </label>
+                <input type="text" name="inv_model" placeholder="e.g. Prius">
+            </div>
+
+            <div class="email-password">
+                <label for="inv_year">Year: </label>
+                <input type="text" name="inv_year" placeholder="e.g. 2018">
+            </div>
+
+            <div class="email-password">
+                <label for="inv_description">Description: </label>
+                <textarea type="text" name="inv_description" rows="4" cols="40" placeholder="e.g.  One of the first commercially successful cars, that runs at lower speeds on an electric motor powered by a battery pack, and at higher speeds on a gasoline engine, which can also recharge the battery."></textarea>
+            </div>
+
+            <div class="email-password">
+                <label for="inv_image">Image: </label>
+                <input type="text" name="inv_image" value="/images/vehicles/no-image.png">
+            </div>
+
+            <div class="email-password">
+                <label for="inv_thumbnail">Thumbnail: </label>
+                <input type="text" name="inv_thumbnail" value="/images/vehicles/no-image-tn.png">
+            </div>
+
+            <div class="email-password">
+                <label for="inv_price">Price: </label>
+                <input type="text" name="inv_price" placeholder="e.g. 18000">
+            </div>
+
+            <div class="email-password">
+                <label for="inv_miles">Miles: </label>
+                <input type="text" name="inv_miles" placeholder="e.g. 100000">
+            </div>
+            
+            <div class="email-password">
+                <label for="inv_color">Color: </label>
+                <input type="text" name="inv_color" placeholder="e.g. Blue">
+            </div>
+
+
+
+            <br>
+            <input type="submit" value="Add Vehicle">
+        </form>
+    </div>
+</div>

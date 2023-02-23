@@ -40,12 +40,12 @@ async function registerClient(req, res) {
       client_email,
       client_password
     )
-    console.log(regResult)
+    
     if (regResult) {
       res.status(201).render("clients/login.ejs", {
         title: "Login",
         nav,
-        message: `Congratulations, you\'re registered ${client_firstname}. Please log in.`,
+        message: `Congratulations, you\'re registered ${client_firstname} ${client_lastname}. Please log in.`,
         errors: null,
       })
     } else {
