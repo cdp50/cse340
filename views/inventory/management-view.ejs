@@ -7,13 +7,13 @@
         } %>
 
         <% if (message) { %>
-        <p class="notice"><%= message %></p>
+        <p class="loginValid"><%= message %></p>
         <% } %>
         <br>
         
         <div class="buttons">
-            <a href=<%- addNewClassification %>><button id="button2">Add New Classification</button></a>
-            <a href=<%- addNewVehicle %>><button>Add New Vehicle</button></a>
+            <button onclick='window.location.href="<%- addNewClassification %>"' id="button2">Add New Classification</button>
+            <button onclick='window.location.href="<%- addNewVehicle %>"'>Add New Vehicle</button>
         </div>
     </div>
 </div>

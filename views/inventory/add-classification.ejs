@@ -7,13 +7,20 @@
         } %>
 
         <% if (message) { %>
-        <p class="notice"><%= message %></p>
+        <p class="loginValid"><%= message %></p>
         <% } %>
         <br>
         
         <form action="add-classification" method="post">
+            <% if (errors) { %>
+                <ul class="notice">
+               <% errors.array().forEach(error => { %>
+                 <li><%= error.msg %></li>
+              <%  }) %>
+               </ul>
+              <% } %>
             <label for="classificationName">Name may NOT contain a space or special character of any kind</label><br>
-            <input type="text" name="classificationName" placeholder="e.g. Van "><br>
+            <input type="text" id="classificationName" name="classificationName" placeholder="e.g. Van " required pattern="^[A-Za-z]+$"><br>
             <input type="submit" value="Add Classification">
         </form>
     </div>

@@ -7,15 +7,34 @@
         } %>
 
         <% if (message) { %>
-        <p class="notice"><%= message %></p>
+        <p class="loginValid"><%= message %></p>
         <% } %>
+
+        <% if (errors) { %>
+            <ul class="notice">
+           <% errors.array().forEach(error => { %>
+             <li><%= error.msg %></li>
+          <%  }) %>
+           </ul>1
+          <% } %>
     
-        <form action="/action_page.php">
-            <label for="username">Username: </label><br>
-            <input type="email" id="username" name="username" ><br>
+        <form id="loginForm" action="/clients/login" method="post">
+            <label for="client_email">Username: </label><br>
+            <input type="email" id="client_email" name="client_email" required value="<%= locals.client_email %>"><br>
+              
             <label for="password">Password:</label><br>
-            <input type="password" id="password" name="password"><br><br>
-            <input type="submit" value="LOGIN">
+            <input type="password" id="password" name="password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"><br>
+
+            <ul class="passwordRulesLogin">
+                <li> <strong> Password must contain: </strong> </li>
+                <li>at least 12 characters</li>
+                <li>at least one number</li>
+                <li>at least one capital letter</li>
+                <li>at least one $#% symbol</li>
+            </ul>
+            <input type="checkbox"  id="checkbox" name="checkbox" onclick="showPassword()">
+            <label for="checkbox">Show Password </label><br>
+            <input type="submit" id="submit" name="checkbox" value="LOGIN">
         </form> 
         <p>No account? <a href="/clients/register">Sign-up</a></p>
     </div>

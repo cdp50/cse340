@@ -7,61 +7,68 @@
     } %>
 
     <% if (message) { %>
-    <p class="notice"><%= message %></p>
+    <p class="loginValid"><%= message %></p>
     <% } %>
     <br>
+
     
         <form action="add-vehicle" method="post">
-            <label for="classification_id">Choose a Classification:</label>
-            <%- dropdown %>
-            <br>
+            <% if (errors) { %>
+                <ul class="notice">
+               <% errors.array().forEach(error => { %>
+                 <li><%= error.msg %></li>
+              <%  }) %>
+               </ul>
+              <% } %>
+            <div class="email-password">
+                <label for="classification_id">Classification:</label>
+                <%- dropdown %>
+            </div>
             
             <div class="email-password">
                 <label for="inv_make">Make: </label>
-                <input type="text" name="inv_make" placeholder="e.g. Toyota">
+                <input type="text" id="inv_make" name="inv_make" placeholder="e.g. Toyota" required pattern="^[A-Za-z\s]{1,20}$" value="<%= locals.inv_make %>">
             </div>
 
             <div class="email-password">
                 <label for="inv_model">Model: </label>
-                <input type="text" name="inv_model" placeholder="e.g. Prius">
+                <input type="text" id="inv_model" name="inv_model" placeholder="e.g. Prius" required pattern="^[A-Za-z0-9\s]{1,20}$" value="<%= locals.inv_model %>">
             </div>
 
             <div class="email-password">
                 <label for="inv_year">Year: </label>
-                <input type="text" name="inv_year" placeholder="e.g. 2018">
+                <input type="text" id="inv_year" name="inv_year" placeholder="e.g. 2018" required pattern="^[0-9]{4}$" value="<%= locals.inv_year %>">
             </div>
 
             <div class="email-password">
                 <label for="inv_description">Description: </label>
-                <textarea type="text" name="inv_description" rows="4" cols="40" placeholder="e.g.  One of the first commercially successful cars, that runs at lower speeds on an electric motor powered by a battery pack, and at higher speeds on a gasoline engine, which can also recharge the battery."></textarea>
+                <textarea id="inv_description" name="inv_description" rows="6" cols="39" placeholder="e.g.  One of the first commercially successful cars, that runs at lower speeds on an electric motor powered by a battery pack, and at higher speeds on a gasoline engine, which can also recharge the battery." required maxlength="206"><%= locals.inv_description %></textarea>
             </div>
 
             <div class="email-password">
                 <label for="inv_image">Image: </label>
-                <input type="text" name="inv_image" value="/images/vehicles/no-image.png">
+                <input type="text" id="inv_image" name="inv_image" value="/images/vehicles/no-image.png" required pattern="^[\/a-zA-Z0-9%\$\.\-]+">
             </div>
 
             <div class="email-password">
                 <label for="inv_thumbnail">Thumbnail: </label>
-                <input type="text" name="inv_thumbnail" value="/images/vehicles/no-image-tn.png">
+                <input type="text" id="inv_thumbnail" name="inv_thumbnail" value="/images/vehicles/no-image-tn.png" required pattern="^[\/a-zA-Z0-9%\$\.\-]+">
             </div>
 
             <div class="email-password">
                 <label for="inv_price">Price: </label>
-                <input type="text" name="inv_price" placeholder="e.g. 18000">
+                <input type="text" id="inv_price" name="inv_price" placeholder="e.g. 18000" required pattern="^\d+\.?\d*$" value="<%= locals.inv_price %>">
             </div>
 
             <div class="email-password">
                 <label for="inv_miles">Miles: </label>
-                <input type="text" name="inv_miles" placeholder="e.g. 100000">
+                <input type="text" id="inv_miles" name="inv_miles" placeholder="e.g. 100000" required pattern="^[0-9]{1,6}$" value="<%= locals.inv_miles %>">
             </div>
             
             <div class="email-password">
                 <label for="inv_color">Color: </label>
-                <input type="text" name="inv_color" placeholder="e.g. Blue">
+                <input type="text" id="inv_color" name="inv_color" placeholder="e.g. Blue" required pattern="^[A-Za-z\s]{1,20}$" value="<%= locals.inv_color %>">
             </div>
-
-
 
             <br>
             <input type="submit" value="Add Vehicle">

@@ -9,33 +9,45 @@
         <% if (message) { %>
         <p class="notice"><%= message %></p>
         <% } %>
-        <br>
+
+        <% if (errors) { %>
+            <ul class="notice">
+           <% errors.array().forEach(error => { %>
+             <li><%= error.msg %></li>
+          <%  }) %>
+           </ul>
+          <% } %>
         
         <form action="/clients/register" method="post">
             <div class="yourName">
-                <p>Your Name *</p>
-                <label for="firstname"></label><br>
-                <input type="text" id="firstname" name="client_firstname" placeholder="First name:" required>
-                
-                <label for="lastname"></label>
-                <input type="text" id="lastname" name="client_lastname" placeholder="Last name:" required>
+                <label for="firstname">Your name *</label><br>
+                <input autocomplete="on" type="text" id="firstname" name="client_firstname" placeholder="First name:" required value="<%= locals.client_firstname %>">
+                <label for="lastname" ></label>
+                <input autocomplete="on" type="text" id="lastname" name="client_lastname" placeholder="Last name:" required value="<%= locals.client_lastname %>">
             </div>
 
             <div class="email-password">
-                <p>Email address *</p>
-                <label for="email"></label>
-                <input type="email" id="email" name="client_email" placeholder="e.g. hello@contact.net" required>
+                <label for="email">Email address *</label>
+                <input autocomplete="on" type="email" id="email" name="client_email" placeholder="e.g. hello@contact.net" required value="<%= locals.client_email %>">
             </div>
+    
             <div class="email-password">
-                <p>Password *</p>
-                <label for="password"></label>
-                <input type="password" id="password" name="client_password" placeholder="  ********  " required>
+                <label for="password">Password *</label>
+                <input type="password" id="password" name="client_password" placeholder="  ********  " required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
             </div>
+            
+            <ul class="passwordRulesRegister">
+                <li> <strong> Password must contain: </strong> </li>
+                <li>at least 12 characters</li>
+                <li>at least one number</li>
+                <li>at least one capital letter</li>
+                <li>at least one $#% symbol</li>
+            </ul>
             <div class="showPassword">
-                <input type="checkbox" onclick="showPassword()">Show Password <br>
-                <input type="submit" value="LOGIN" required>
+                <input type="checkbox" id="checkbox" name="checkbox" onclick="showPassword()">
+                <label for="checkbox">Show Password </label><br>
+                <input type="submit" value="LOGIN">
             </div>
         </form> 
-        <p>No account? <a href="/clients/registration">Sign-up</a></p>
     </div>
 </div>

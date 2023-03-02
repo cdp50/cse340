@@ -1,20 +1,24 @@
 lockfileVersion: 5.4
 
 specifiers:
+  bcryptjs: ^2.4.3
   body-parser: ^1.20.1
   dotenv: ^16.0.3
   ejs: ^3.1.8
   express: ^4.18.2
   express-ejs-layouts: ^2.5.1
+  express-validator: ^6.15.0
   nodemon: ^2.0.15
   pg: ^8.8.0
 
 dependencies:
+  bcryptjs: 2.4.3
   body-parser: 1.20.1
   dotenv: 16.0.3
   ejs: 3.1.8
   express: 4.18.2
   express-ejs-layouts: 2.5.1
+  express-validator: 6.15.0
   pg: 8.8.0
 
 devDependencies:
@@ -59,6 +63,10 @@ packages:
 
   /balanced-match/1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
+
+  /bcryptjs/2.4.3:
+    resolution: {integrity: sha512-V/Hy/X9Vt7f3BbPJEi8BdVFMByHi+jNXrYkW3huaybV/kQ0KJg0Y6PkEMbn+zeT+i+SiKZ/HMqJGIIt4LZDqNQ==}
+    dev: false
 
   /binary-extensions/2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
@@ -245,6 +253,14 @@ packages:
 
   /express-ejs-layouts/2.5.1:
     resolution: {integrity: sha512-IXROv9n3xKga7FowT06n1Qn927JR8ZWDn5Dc9CJQoiiaaDqbhW5PDmWShzbpAa2wjWT1vJqaIM1S6vJwwX11gA==}
+    dev: false
+
+  /express-validator/6.15.0:
+    resolution: {integrity: sha512-r05VYoBL3i2pswuehoFSy+uM8NBuVaY7avp5qrYjQBDzagx2Z5A77FZqPT8/gNLF3HopWkIzaTFaC4JysWXLqg==}
+    engines: {node: '>= 8.0.0'}
+    dependencies:
+      lodash: 4.17.21
+      validator: 13.9.0
     dev: false
 
   /express/4.18.2:
@@ -437,6 +453,10 @@ packages:
       chalk: 4.1.2
       filelist: 1.0.4
       minimatch: 3.1.2
+    dev: false
+
+  /lodash/4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
     dev: false
 
   /media-typer/0.3.0:
@@ -805,6 +825,11 @@ packages:
   /utils-merge/1.0.1:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
+    dev: false
+
+  /validator/13.9.0:
+    resolution: {integrity: sha512-B+dGG8U3fdtM0/aNK4/X8CXq/EcxU2WPrPEkJGslb47qyHsxmbggTWK0yEA4qnYVNF+nxNlN88o14hIcPmSIEA==}
+    engines: {node: '>= 0.10'}
     dev: false
 
   /vary/1.1.2:

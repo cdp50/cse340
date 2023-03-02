@@ -34,22 +34,19 @@ Util.getNav = async function (req, res, next) {
 /* ************************
  * Constructs the dropdown HTML
  ************************** */
-Util.buildDropdown = function (data) {
-  let list = '<select name="classification_id" id="classification_id">'
+Util.getDropdown = async function (classification_id = null) {
+  let data = await invModel.getClassifications()
+  let list = `<select name="classification_id" id="classification_id" required>`
+  list += "<option value='' disabled selected>Choose a Classification</option>"
   data.rows.forEach((row) => {
-    list += `<option value=${row.classification_id}>${row.classification_name}</option>`
+    list += `<option value=${row.classification_id} `
+    if(classification_id != null && row.classification_id == classification_id){
+      list+= " selected "
+    }
+    list += `>${row.classification_name}</option>` 
   })
   list += '</select>'
   return list
-}
-
-/* ************************
- * Builds the dropdown menu
- ************************** */
-Util.getDropdown = async function (req, res, next) {
-  let data = await invModel.getClassifications()
-  dropdown = Util.buildDropdown(data)
-  return dropdown
 }
 
 /* ************************
