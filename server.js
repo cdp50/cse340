@@ -11,6 +11,8 @@ const env = require("dotenv").config()
 const app = express()
 const baseController = require("./controllers/baseController");
 const bodyParser = require("body-parser")
+const cookieParser = require("cookie-parser")
+const utilities = require("./utilities")
 
 
 /* ***********************
@@ -18,6 +20,7 @@ const bodyParser = require("body-parser")
  *************************/
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(cookieParser())
 
 
 /* ***********************
@@ -33,7 +36,7 @@ app.set("layout", "./layouts/layout") // not at views root
 app.use(require("./routes/static"))
 
 //Index route
-app.get("/", baseController.buildHome)
+app.get("/", utilities.checkClientLogin, baseController.buildHome)
 // app.get("/",function(req, res){
 //   res.render("index", {title: "Home"})
 // })

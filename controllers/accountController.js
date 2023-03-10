@@ -1,6 +1,8 @@
 const bcrypt = require("bcryptjs")
 const utilities = require("../utilities/index");
 const accountModel = require("../models/account-model");
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 
 /* ****************************************
 *  Deliver login view
@@ -73,5 +75,58 @@ async function registerClient(req, res) {
       })
     }
   }
+
+/* ****************************************
+ *  Process login request
+ * ************************************ */
+async function loginClient(req, res) {
+  let nav = await utilities.getNav()
+  const { client_email, client_password } = req.body
+  const clientData = await accountModel.getClientByEmail(client_email)
+  if (!clientData) {
+    const message = "Please check your credentials and try again."
+    res.status(400).render("clients/login", {
+      title: "Login",
+      nav,
+      message,
+      errors: null,
+      client_email,
+    })
+    return
+  }
+  try {
+    if (await bcrypt.compare(client_password, clientData.client_password)) {
+      delete clientData.client_password
+      const accessToken = jwt.sign(clientData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
+      res.cookie("jwt", accessToken, { httpOnly: true })
+      return res.redirect("/clients/")
+    }
+  } catch (error) {
+    return res.status(403).send('Access Forbidden')
+  }
+}
+
+/* ****************************************
+*  Deliver logged in view
+**************************************** */
+async function buildManagement(req, res, next){
+  let nav = await utilities.getNav()
+  res.render("clients/loggedIn",{
+    title: "Account Management",
+    name: req.clientData.client_firstname,
+    nav,
+    errors: null, 
+    message: null,
+  })
+}
+
+/* ****************************************
+*  Logs out the client
+**************************************** */
+
+async function logoutClient(req, res) {
+  res.clearCookie("jwt")
+  return res.redirect("/")
+}
   
-  module.exports = { buildLogin, buildRegister, registerClient };
+  module.exports = { buildLogin, buildRegister, registerClient, loginClient, buildManagement, logoutClient };

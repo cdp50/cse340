@@ -11,11 +11,19 @@ const validate = {}
  * ********************************* */
 validate.vehicleRegistrationRules = () => {
     return [
+      // classification is required
+      body("classification_id")
+        .trim()
+        .escape()
+        .isLength({ min: 3 })
+        .isAlpha()
+        .withMessage("Please provide the classification of the vehicle."), // on error this message is sent.
+
       // make is required and must be string
       body("inv_make")
         .trim()
         .escape()
-        .isLength({ min: 1 })
+        .isLength({ min: 3 })
         .isAlpha()
         .withMessage("Please provide the make of the vehicle."), // on error this message is sent.
   
@@ -23,7 +31,7 @@ validate.vehicleRegistrationRules = () => {
       body("inv_model")
         .trim()
         .escape()
-        .isLength({ min: 1 })
+        .isLength({ min: 3 })
         .isAlphanumeric()
         .withMessage("Please provide the model of the vehicle."), // on error this message is sent.
   
@@ -43,17 +51,18 @@ validate.vehicleRegistrationRules = () => {
       body("inv_description")
         .trim()
         .isLength({ max: 206 })
+        .isLength({ min: 20 })
         .withMessage("The description can't be longer than 4 lines.")
         .withMessage("Please provide the description of the vehicle."), // on error this message is sent.
 
         // image is required and can contain string, integer, and symbols.
-      body("inv_image")
+      body("inv_image")// it should check if the word image is in, and if there are "/ in it"
       .trim()
       .isLength({ min: 1 })
       .withMessage("Please provide the image of the vehicle."), // on error this message is sent.
 
-        // thumbnail is required and can contain string, integer, and symbols.
-      body("inv_thumbnail")
+      // thumbnail is required and can contain string, integer, and symbols.
+      body("inv_thumbnail") // it should check if the word image is in, and if there are "/ in it"
       .trim()
       .isLength({ min: 1 })
       .withMessage("Please provide the thumbnail of the vehicle."), // on error this message is sent.
@@ -106,6 +115,7 @@ validate.checkVeData = async (req, res, next) => {
         title: "Add new vehicle", 
         nav, 
         dropdown,
+        classification_id,
         inv_make, 
         inv_model, 
         inv_year, 
@@ -134,7 +144,7 @@ validate.newClassificationRules = () => {
       body("classificationName")
         .trim()
         .escape()
-        .isLength({ min: 1 })
+        .isLength({ min: 3 })
         .isAlpha()
         .withMessage("Please provide the name of the classification."), // on error this message is sent.
     ]

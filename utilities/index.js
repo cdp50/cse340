@@ -1,5 +1,7 @@
 const invModel = require("../models/inventory-model")
 const Util = {}
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 
 /* ************************
  * Constructs the nav HTML unordered list
@@ -75,6 +77,47 @@ Util.getDescription = async function (data) {
   const description = await Util.buildDescription(data)
 
   return description
+}
+
+/* ****************************************
+* Middleware to check token validity
+**************************************** */
+Util.checkJWTToken = (req, res, next) => {
+  jwt.verify(req.cookies.jwt, process.env.ACCESS_TOKEN_SECRET, function (err) {
+    if (err) {
+      return res.status(403).redirect("/clients/login")
+    }
+  return next()
+  })
+}
+
+/* ****************************************
+ *  Authorize JWT Token
+ * ************************************ */
+Util.jwtAuth = (req, res, next) => {
+  const token = req.cookies.jwt
+  try {
+    const clientData = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+    req.clientData = clientData
+    console.log(clientData.client_firstname)
+    next()
+  } catch (error){
+    res.clearCookie("jwt", { httpOnly: true })
+    return res.status(403).redirect("/")
+  }
+}
+
+/* ****************************************
+* Middleware to check if there is a cookie
+**************************************** */
+
+Util.checkClientLogin = ( req, res, next )=> {
+  if(req.cookies.jwt){
+    res.locals.loggedIn = 1
+    next()
+  }else{
+    next()
+  }
 }
 
 
