@@ -99,7 +99,7 @@ Util.jwtAuth = (req, res, next) => {
   try {
     const clientData = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
     req.clientData = clientData
-    console.log(clientData.client_firstname)
+
     next()
   } catch (error){
     res.clearCookie("jwt", { httpOnly: true })
@@ -112,6 +112,7 @@ Util.jwtAuth = (req, res, next) => {
 **************************************** */
 
 Util.checkClientLogin = ( req, res, next )=> {
+  
   if(req.cookies.jwt){
     res.locals.loggedIn = 1
     next()
@@ -119,6 +120,15 @@ Util.checkClientLogin = ( req, res, next )=> {
     next()
   }
 }
+/* ****************************************
+* Middleware to check client type
+**************************************** */
+// Util.checkClientType = ( req, res, next )=> {
+//   const client_type;
+//   req.clientData.client_type == "Basic" ? client_type = 
+
+// }
+
 
 
 module.exports = Util

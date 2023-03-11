@@ -38,26 +38,52 @@ invCont.buildManagement = async function (req, res, next) {
     let title = "Vehicle Management";
     let addClassification = "../../inv/add-classification";
     let addVehicle = "../../inv/add-vehicle";
+    
+    if(req.clientData.client_type == "Admin" || req.clientData.client_type == "Employee"){
+        res.render("./inventory/management-view", {
+            title: title,
+            nav,
+            message: null,
+            addNewClassification: addClassification,
+            addNewVehicle: addVehicle,
+        })
+    } else if(req.clientData.client_type == "Client" || req.clientData.client_type == undefined){
+        res.render("clients/login", {
+            title: `Access Denied`,
+            nav,
+            message: "you do not have access to this area",
+            errors: null,
+            client_email: null,
+        })
+    }
+    
 
-    res.render("./inventory/management-view", {
-        title: title,
-        nav,
-        message: null,
-        addNewClassification: addClassification,
-        addNewVehicle: addVehicle,
-    })
+
 }
 
 invCont.buildAddClassification = async function (req, res, next) {
     let nav = await utilities.getNav();
     let title = "Add New Classification";
 
-    res.render("./inventory/add-classification", {
-        title: title,
-        nav, 
-        message: null,
-        errors: null,
-    })
+    if(req.clientData.client_type == "Admin" || req.clientData.client_type == "Employee"){
+        res.render("./inventory/add-classification", {
+            title: title,
+            nav,
+            message: null,
+            errors:null,
+        })
+    } else if(req.clientData.client_type == "Client" || req.clientData.client_type == undefined){
+        res.render("clients/login", {
+            title: `Access Denied`,
+            nav,
+            message: "you do not have access to this area",
+            errors: null,
+            client_email: null,
+        })
+    }
+    
+    
+
 }
 
 
@@ -89,19 +115,30 @@ invCont.addClassification = async function (req, res, next) {
         })
     }
 }
-
+//if you are not logged in or if you're basic client you're redirected to login with a "notice" message like
+// you are required to login as employee or admin to access this area. 
 invCont.buildAddVehicle = async function (req, res, next) {
     let title = "Add New Vehicle";
     let nav = await utilities.getNav();
     let dropdown = await utilities.getDropdown();
-
-    res.render("./inventory/add-vehicle", {
-        title: title,
-        nav, 
-        dropdown,
-        message: null,
-        errors: null,
-    })
+    console.log(req.clientData.client_type)
+    if(req.clientData.client_type == "Admin" || req.clientData.client_type == "Employee"){
+        res.render("./inventory/add-vehicle", {
+            title: title,
+            nav,
+            dropdown,
+            message: null,
+            errors: null,
+        })
+    } else if(req.clientData.client_type == "Client" || req.clientData.client_type == undefined){
+        res.render("clients/login", {
+            title: `Access Denied`,
+            nav,
+            message: "you do not have access to this area",
+            errors: null,
+            client_email: null,
+        })
+    }
 }
 
 invCont.addVehicle = async function (req, res, next) {

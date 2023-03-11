@@ -25,7 +25,7 @@ router.post(
   )
 
 // Middleware to check token validity, then, logs the client in
-router.get("/", utilities.checkJWTToken, utilities.checkClientLogin, utilities.jwtAuth, accController.buildManagement)
+router.get("/", utilities.checkJWTToken, utilities.jwtAuth, utilities.checkClientLogin, accController.buildManagement)
 
 // process the delete of cookies
 router.get("/logout", accController.logoutClient)

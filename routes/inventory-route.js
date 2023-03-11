@@ -14,9 +14,9 @@ router.get("/type/:classificationId", utilities.checkClientLogin, invController.
 // Route to build inventory by classification view
 router.get("/detail/:detailId", utilities.checkClientLogin, invController.buildById);
 
-router.get("/", utilities.checkClientLogin, invController.buildManagement);
+router.get("/", utilities.jwtAuth, utilities.checkClientLogin, invController.buildManagement);//aqui tiene que haber un control
 
-router.get("/add-classification", utilities.checkClientLogin, invController.buildAddClassification);
+router.get("/add-classification", utilities.jwtAuth, utilities.checkClientLogin, invController.buildAddClassification);//aqui tiene que haber un control
 
 router.post(
     "/add-classification", 
@@ -24,7 +24,7 @@ router.post(
     regValidate.checkNewClaData,
     invController.addClassification);
 
-router.get("/add-vehicle", utilities.checkClientLogin, invController.buildAddVehicle);
+router.get("/add-vehicle", utilities.jwtAuth, utilities.checkClientLogin, invController.buildAddVehicle);//aqui tiene que haber un control
 
 router.post(
     "/add-vehicle",
