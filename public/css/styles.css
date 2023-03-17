@@ -9,6 +9,36 @@
   color: black;
   padding-left: 10px;
 }
+.errorPageImg{
+  max-width: 100%;
+  margin-top: 20px;
+  border-radius: 30px;
+}
+.errorBox{
+  position: relative;
+  max-width: 363px;
+  margin: 0 auto;
+}
+.errorMessage{
+  font-weight: bolder;
+  position: absolute;
+  color: black;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size: 2rem;
+  right: 13%;
+  top: 69%;
+  -webkit-text-stroke: .5px white;
+  max-width: 80%;
+}
+.errorTitle{
+  position: absolute;
+  /* color: white; */
+  font-family:Arial, Helvetica, sans-serif;
+  font-size: 300%;
+  right: 41%;
+  top: 4%;
+  -webkit-text-stroke: 1px white;
+}
 header{
   display: flex;
   justify-content: space-between;

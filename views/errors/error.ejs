@@ -1,0 +1,18 @@
+<div class="background">
+    <div class="errorBox">
+
+        <img class="errorPageImg" src="../../images/site/error.png" alt="error image">
+        <% if (title) { %>
+            <h1 class="errorTitle"><%= title %></h1>
+            <% } else { 
+                  res.redirect('/') 
+            } %>
+
+
+        <% if (message) { %>
+        <p class="errorMessage"><%= message %> Successfully</p>
+        <% } %>
+    </div>
+    
+
+</div>

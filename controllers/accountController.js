@@ -17,6 +17,15 @@ async function buildLogin (req, res, next) {
     })
   }
 
+  /* ****************************************
+*  Deliver error view
+**************************************** */
+async function buildError (req, res, next) {
+    res.render("clients/login", {
+
+    })
+  }
+
 /* ****************************************
 *  Deliver registration view
 **************************************** */
@@ -129,4 +138,4 @@ async function logoutClient(req, res) {
   return res.redirect("/")
 }
   
-  module.exports = { buildLogin, buildRegister, registerClient, loginClient, buildManagement, logoutClient };
+  module.exports = { buildLogin, buildRegister, registerClient, loginClient, buildManagement, logoutClient, buildError };

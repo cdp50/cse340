@@ -9,28 +9,28 @@ const utilities = require("../utilities");
 
 
 // Route to build inventory by classification view
-router.get("/type/:classificationId", utilities.checkClientLogin, invController.buildByClassification);
+router.get("/type/:classificationId", utilities.checkClientLogin, utilities.handleErrors(invController.buildByClassification));
 
 // Route to build inventory by classification view
-router.get("/detail/:detailId", utilities.checkClientLogin, invController.buildById);
+router.get("/detail/:detailId", utilities.checkClientLogin, utilities.handleErrors(invController.buildById));
 
-router.get("/", utilities.jwtAuth, utilities.checkClientLogin, invController.buildManagement);//aqui tiene que haber un control
+router.get("/", utilities.jwtAuth, utilities.checkClientLogin, utilities.handleErrors(invController.buildManagement));//aqui tiene que haber un control
 
-router.get("/add-classification", utilities.jwtAuth, utilities.checkClientLogin, invController.buildAddClassification);//aqui tiene que haber un control
+router.get("/add-classification", utilities.jwtAuth, utilities.checkClientLogin, utilities.handleErrors(invController.buildAddClassification));//aqui tiene que haber un control
 
 router.post(
     "/add-classification", 
     regValidate.newClassificationRules(),
     regValidate.checkNewClaData,
-    invController.addClassification);
+    utilities.handleErrors(invController.addClassification));
 
-router.get("/add-vehicle", utilities.jwtAuth, utilities.checkClientLogin, invController.buildAddVehicle);//aqui tiene que haber un control
+router.get("/add-vehicle", utilities.jwtAuth, utilities.checkClientLogin, utilities.handleErrors(invController.buildAddVehicle));//aqui tiene que haber un control
 
 router.post(
     "/add-vehicle",
     regValidate.vehicleRegistrationRules(),
     regValidate.checkVeData,
-    invController.addVehicle
+    utilities.handleErrors(invController.addVehicle)
     );
 
 module.exports = router;             

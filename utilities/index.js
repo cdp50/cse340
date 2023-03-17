@@ -120,14 +120,13 @@ Util.checkClientLogin = ( req, res, next )=> {
     next()
   }
 }
-/* ****************************************
-* Middleware to check client type
-**************************************** */
-// Util.checkClientType = ( req, res, next )=> {
-//   const client_type;
-//   req.clientData.client_type == "Basic" ? client_type = 
 
-// }
+/* ****************************************
+ * Middleware For Handling Errors
+ * Wrap other function in this for 
+ * General Error Handling
+ **************************************** */
+Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
 
 
