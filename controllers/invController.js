@@ -237,6 +237,30 @@ invCont.updateVehicle = async function (req, res, next) {
         classification_id, inv_make,inv_model,inv_year, 
         inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, inv_id
         } = req.body;
+        // this is an attempt to return an error message if no change to the form has been done. 
+    // const formData = {inv_make, inv_model, inv_price, inv_description, inv_color, inv_miles, inv_image, inv_year, classification_id}
+    // let [dbData] = await invModel.getVehicleById(inv_id)
+    // if(JSON.stringify(dbData) === JSON.stringify(formData)){
+    //     res.render("./inventory/edit-vehicle", {
+    //         title: "Edit " + inv_make + " " + inv_model,
+    //         nav,
+    //         dropdown,
+    //         message: null,
+    //         errors: "No change detected, make sure to edit the vehicle information",
+    //         inv_id: inv_id,
+    //         inv_make: data.inv_make,
+    //         inv_model: data.inv_model,
+    //         inv_year: data.inv_year,
+    //         inv_description: data.inv_description,
+    //         inv_image: data.inv_image,
+    //         inv_thumbnail: data.inv_thumbnail,
+    //         inv_price: data.inv_price,
+    //         inv_miles: data.inv_miles,
+    //         inv_color: data.inv_color,
+    //         classification_id: data.classification_id
+    //     })
+    // }
+    
     const updateResult = await invModel.updateVehicle(classification_id, inv_make, inv_model, 
         inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, inv_id);
     let addClassification = "../../inv/add-classification";
