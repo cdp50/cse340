@@ -35,6 +35,7 @@ invCont.buildById = async function (req, res, next) {
 
 invCont.buildManagement = async function (req, res, next) {
     let nav = await utilities.getNav();
+    const classificationSelect = await utilities.getDropdown();
     let title = "Vehicle Management";
     let addClassification = "../../inv/add-classification";
     let addVehicle = "../../inv/add-vehicle";
@@ -46,6 +47,7 @@ invCont.buildManagement = async function (req, res, next) {
             message: null,
             addNewClassification: addClassification,
             addNewVehicle: addVehicle,
+            classificationSelect,
         })
     } else if(req.clientData.client_type == "Client" || req.clientData.client_type == undefined){
         res.render("clients/login", {
@@ -56,9 +58,6 @@ invCont.buildManagement = async function (req, res, next) {
             client_email: null,
         })
     }
-    
-
-
 }
 
 invCont.buildAddClassification = async function (req, res, next) {
@@ -81,11 +80,7 @@ invCont.buildAddClassification = async function (req, res, next) {
             client_email: null,
         })
     }
-    
-    
-
 }
-
 
 invCont.addClassification = async function (req, res, next) {
     let title = "Vehicle Management";
@@ -115,13 +110,14 @@ invCont.addClassification = async function (req, res, next) {
         })
     }
 }
-//if you are not logged in or if you're basic client you're redirected to login with a "notice" message like
-// you are required to login as employee or admin to access this area. 
+/* ***************************
+ *  deliver the add new vehicle 
+ *  view if you have the right client_type
+ * ************************** */
 invCont.buildAddVehicle = async function (req, res, next) {
     let title = "Add New Vehicle";
     let nav = await utilities.getNav();
     let dropdown = await utilities.getDropdown();
-    console.log(req.clientData.client_type)
     if(req.clientData.client_type == "Admin" || req.clientData.client_type == "Employee"){
         res.render("./inventory/add-vehicle", {
             title: title,
@@ -141,33 +137,17 @@ invCont.buildAddVehicle = async function (req, res, next) {
     }
 }
 
+/* ***************************
+ *  manage the post by adding the new vehicle to the DB
+ * ************************** */
 invCont.addVehicle = async function (req, res, next) {
     let title = "Add New Vehicle";
     const { 
-        classification_id, 
-        inv_make,
-        inv_model,
-        inv_year, 
-        inv_description, 
-        inv_image, 
-        inv_thumbnail, 
-        inv_price, 
-        inv_miles, 
-        inv_color, 
+        classification_id, inv_make,inv_model,inv_year, 
+        inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, 
         } = req.body;
-
-    const result = await invModel.addVehicle(
-        classification_id, 
-        inv_make, 
-        inv_model, 
-        inv_year, 
-        inv_description, 
-        inv_image, 
-        inv_thumbnail, 
-        inv_price, 
-        inv_miles, 
-        inv_color,
-        );
+    const result = await invModel.addVehicle(classification_id, inv_make, inv_model, 
+        inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color,);
     let addClassification = "../../inv/add-classification";
     let addVehicle = "../../inv/add-vehicle";
     let nav = await utilities.getNav();
@@ -192,5 +172,173 @@ invCont.addVehicle = async function (req, res, next) {
         })
     }
 }
+
+/* ***************************
+ *  Return Vehicles by Classification As JSON
+ * ************************** */
+invCont.getVehiclesJSON = async (req, res, next) => {
+    const classification_id = parseInt(req.params.classification_id)
+    const vehicleData = await invModel.getVehiclesByClassificationId(classification_id)
+    if (vehicleData[0].inv_id) {
+      return res.json(vehicleData)
+    } else {
+      next(new Error("No data returned"))
+    }
+  }
+
+/* ***************************
+ *  delivers the edit vehicle view
+ * ************************** */
+invCont.editDetailId = async function (req, res, next) {
+    res.locals.detailId = parseInt(req.params.detailId);
+    let nav = await utilities.getNav();
+    let [data] = await invModel.getVehicleById(res.locals.detailId)
+    console.log("this is the get vehicle by id data I want to know if it comes with the classification id");
+    console.log(data);
+    let title = "Edit " + data.inv_make + " " + data.inv_model;
+    let dropdown = await utilities.getDropdown(data.classification_id);
+    if(req.clientData.client_type == "Admin" || req.clientData.client_type == "Employee"){
+        res.render("./inventory/edit-vehicle", {
+            title: title,
+            nav,
+            dropdown,
+            message: null,
+            errors: null,
+            inv_id: res.locals.detailId,
+            inv_make: data.inv_make,
+            inv_model: data.inv_model,
+            inv_year: data.inv_year,
+            inv_description: data.inv_description,
+            inv_image: data.inv_image,
+            inv_thumbnail: data.inv_thumbnail,
+            inv_price: data.inv_price,
+            inv_miles: data.inv_miles,
+            inv_color: data.inv_color,
+            classification_id: data.classification_id
+        })
+    } else if(req.clientData.client_type == "Client" || req.clientData.client_type == undefined){
+        res.render("clients/login", {
+            title: `Access Denied`,
+            nav,
+            message: "you do not have access to this area",
+            errors: null,
+            client_email: null,
+        })
+    }
+}
+
+/* ***************************
+ *  Update Vehicle Data
+ * ************************** */
+invCont.updateVehicle = async function (req, res, next) {
+    let dropdown = await utilities.getDropdown();
+    const title = "Edit Vehicle";
+    const { 
+        classification_id, inv_make,inv_model,inv_year, 
+        inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, inv_id
+        } = req.body;
+    const updateResult = await invModel.updateVehicle(classification_id, inv_make, inv_model, 
+        inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, inv_id);
+    let addClassification = "../../inv/add-classification";
+    let addVehicle = "../../inv/add-vehicle";
+    let nav = await utilities.getNav();
+    if(updateResult){
+        
+        res.status(201).render("./inventory/management-view", {
+            title: title,
+            nav, 
+            message: `Vehicle ${inv_make} ${inv_model} has been successfully updated.`,
+            errors: null,
+            addNewClassification: addClassification,
+            addNewVehicle: addVehicle,
+            classificationSelect: dropdown,
+        })
+    } else {
+        const message = "Sorry, the vehicle update failed."
+        res.status(501).render("./inventory/management-view", {
+            title: title,
+            nav,
+            message,
+            errors: null,
+            addNewClassification: addClassification,
+            addNewVehicle: addVehicle,
+            classificationSelect: dropdown,
+        })
+    }
+}
+
+/* ***************************
+ *  delivers the delete vehicle view
+ * ************************** */
+invCont.deleteVehicleView = async function (req, res, next) {
+    res.locals.detailId = parseInt(req.params.detailId);
+    let nav = await utilities.getNav();
+    let [data] = await invModel.getVehicleById(res.locals.detailId)
+    console.log("this is the get vehicle by id data I want to know if it comes with the classification id");
+    console.log(data);
+    let title = "Delete " + data.inv_make + " " + data.inv_model +"?";
+    // let dropdown = await utilities.getDropdown(data.classification_id);
+    if(req.clientData.client_type == "Admin" || req.clientData.client_type == "Employee"){
+        res.render("./inventory/delete-confirm", {
+            title: title,
+            nav,
+            // dropdown,
+            message: null,
+            errors: null,
+            inv_id: res.locals.detailId,
+            inv_make: data.inv_make,
+            inv_model: data.inv_model,
+            inv_year: data.inv_year,
+            inv_price: data.inv_price,
+            classification_id: data.classification_id
+        })
+    } else if(req.clientData.client_type == "Client" || req.clientData.client_type == undefined){
+        res.render("clients/login", {
+            title: `Access Denied`,
+            nav,
+            message: "you do not have access to this area",
+            errors: null,
+            client_email: null,
+        })
+    }
+}
+
+/* ***************************
+ *  Delete Vehicle 
+ * ************************** */
+invCont.deleteVehicle = async function (req, res, next) {
+    const { inv_id } = req.body;
+    let [data] = await invModel.getVehicleById(inv_id)
+    let dropdown = await utilities.getDropdown();
+    const title = "Vehicle Deleted";
+    const deleteResult = await invModel.deleteVehicle(inv_id);
+    let addClassification = "../../inv/add-classification";
+    let addVehicle = "../../inv/add-vehicle";
+    let nav = await utilities.getNav();
+    if(deleteResult){
+        
+        res.status(201).render("./inventory/management-view", {
+            title: title,
+            nav, 
+            message: `Vehicle ${data.inv_make} ${data.inv_model} has been successfully deleted.`,
+            errors: null,
+            addNewClassification: addClassification,
+            addNewVehicle: addVehicle,
+            classificationSelect: dropdown,
+        })
+    } else {
+        const message = "Sorry, the vehicle delete failed."
+        res.status(501).render("./inventory/management-view", {
+            title: title,
+            nav,
+            message,
+            errors: null,
+            addNewClassification: addClassification,
+            addNewVehicle: addVehicle,
+            classificationSelect: dropdown,
+        })
+    }
+}
+
 
 module.exports = invCont;

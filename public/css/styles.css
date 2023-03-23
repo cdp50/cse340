@@ -19,14 +19,79 @@
   max-width: 363px;
   margin: 0 auto;
 }
+.messageCentered p {
+  text-align: center;
+}
+.messageCentered{
+  width: fit-content;
+  margin: 0 auto;
+}
+th, td{
+  border-bottom: 1px solid black;
+}
+.trClass{
+  border-bottom: 1px solid black;
+}
+table{
+  /* border-bottom: 1px solid black; */
+  width: 100%;
+  text-align: left;
+  padding-left: 10px;
+}
+.editForms{
+  display: flex;
+  gap:40px;
+  margin: 30px 0px 30px 0px;
+}
+.manageVehicles{
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  align-items: baseline;
+  /* border: solid 0.5px #e8e2e2; */
+  border: 1px solid black;
+  width: 95%;
+  padding: 30px;
+  margin: auto;
+  box-shadow: 5px 10px 18px #888888;
+  border-radius: 10px;
+  /* background: linear-gradient(110deg, #cae8f3 60%, #09bfe3 60%); */
+  background: #e2f6fd;
+}
+.editAccount{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  align-items: baseline;
+  /* border: solid 0.5px #e8e2e2; */
+  border: 1px solid black;
+  width: 40%;
+  padding: 30px;
+  margin: auto;
+  box-shadow: 5px 10px 18px #888888;
+  border-radius: 10px;
+  /* background: linear-gradient(110deg, #cae8f3 60%, #09bfe3 60%); */
+  background: #e2f6fd;
+}
+.manageVehicles a {
+  text-decoration: none;
+}
+.manageVehicles p {
+  text-align: left;
+}
+.manageVehicles h2{
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
 .errorMessage{
   font-weight: bolder;
   position: absolute;
   color: black;
   font-family:Arial, Helvetica, sans-serif;
-  font-size: 2rem;
+  font-size: clamp(30px, 3vw, 30px);
   right: 13%;
-  top: 69%;
+  top: 68%;
   -webkit-text-stroke: .5px white;
   max-width: 80%;
 }
@@ -34,7 +99,8 @@
   position: absolute;
   /* color: white; */
   font-family:Arial, Helvetica, sans-serif;
-  font-size: 300%;
+  /* font-size: clamp(20px, 3vw, 50px); */
+  font-size: 50px;
   right: 41%;
   top: 4%;
   -webkit-text-stroke: 1px white;
@@ -124,7 +190,8 @@ ul {
 }
 
 .email-password input {
-  width: 25em;
+  width: 70%;
+  /* width: 25em; */
 }
 .background form {
   max-width: 480px;
@@ -138,6 +205,7 @@ input {
   padding-bottom: 5px;
   margin-top: 3px;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 /* input:required:invalid{
   border: solid 1px rgb(246, 173, 173);
@@ -152,7 +220,7 @@ select {
   padding-bottom: 5px;
   margin-top: 3px;
   margin-bottom: 10px;
-  width: 333.33px;
+  width: 99%;
 }
 textarea {
   border-radius: 5px;
@@ -164,7 +232,6 @@ textarea {
   resize: none;
 }
 .notice{
-  margin-bottom: 1em;
   padding: 0px;
   display: flex;
   flex-direction: column;
@@ -176,6 +243,9 @@ textarea {
   padding: 5px 5px;
   border-radius: 10px;
   list-style-position: inside;
+  max-width: 480px;
+  margin: 0 auto;
+  margin-bottom: 2em;
 }
 .notice li {
   list-style-type:disc;
@@ -366,6 +436,7 @@ ul {
   flex-wrap: wrap;
   gap: 30px;
   padding-top: 30px;
+  padding-bottom: 40px;
 }
 .buttons button {
   height: 5em;
@@ -377,9 +448,11 @@ ul {
   box-shadow: 5px 10px 18px #888888;
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-weight: 700;
+  cursor: pointer;
 }
 #button2 {
   background: #09bfe3;
+  cursor: pointer;
 }
 body{
   background-image: url("../images/site/checkerboard.jpg");
@@ -417,14 +490,26 @@ footer{
 }
 @media only screen and (max-width: 430px) {
   body h1 {
-    font-size:large;
+    font-size:2em;
     font-weight: bold;
+  }
+  .editForms{
+    flex-direction: column;
+  }
+  h2{
+    font-size: 1.5em;
+  }
+  .editAccount{
+    width: auto;
   }
   .passwordRules{
     width: 231px;
     margin-left: 0px;
     margin-bottom: 10px;
     margin-top: -20px;
+  }
+  .passwordRulesRegister{
+    width: auto;
   }
   .yourName input{
     width: 231px;

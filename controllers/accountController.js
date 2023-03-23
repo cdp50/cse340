@@ -119,13 +119,17 @@ async function loginClient(req, res) {
 *  Deliver logged in view
 **************************************** */
 async function buildManagement(req, res, next){
+  const client_id = req.clientData.client_id
+  const editAccountPath = `/clients/edit-account/${client_id}`;// it turned out that I do need the id to show the client info I just needed to add "clients" to the path
   let nav = await utilities.getNav()
   res.render("clients/loggedIn",{
     title: "Account Management",
+    client_type: req.clientData.client_type,
     name: req.clientData.client_firstname,
     nav,
     errors: null, 
     message: null,
+    editAccountPath,
   })
 }
 
@@ -137,5 +141,102 @@ async function logoutClient(req, res) {
   res.clearCookie("jwt")
   return res.redirect("/")
 }
-  
-  module.exports = { buildLogin, buildRegister, registerClient, loginClient, buildManagement, logoutClient, buildError };
+
+/* ****************************************
+*  Deliver the editInfoAccount view
+**************************************** */
+async function editInfoAccount(req, res, next){
+
+  // cuando el path llama a esta funcion, luego tengo que volver al controller para ver que otras funciones tengo que llamar
+  // I need to know how to get the client_id from the path that it's going to call this function. got it was by adding req.params
+  const clientData = await accountModel.getClientById(req.params.client_id)
+  let nav = await utilities.getNav()
+  res.render("clients/edit-account",{// should I be using / before "clients"?
+    title: "Edit Account",
+    name: clientData.client_firstname,
+    nav,
+    errors: null, 
+    message: null,
+    client_id:req.params.client_id,
+    client_firstname: clientData.client_firstname,
+    client_lastname: clientData.client_lastname,
+    client_email: clientData.client_email,
+  })
+}
+
+/* ****************************************
+ *  Process edit info account request
+ **************************************** */
+async function accountInfoUpdate(req, res) {
+  let nav = await utilities.getNav()
+  const { client_firstname, client_lastname, client_email, client_id } = req.body;
+  const editAccountPath = `/clients/edit-account/${client_id}`;
+  // change the client information
+  const updateResult = await accountModel.accountUpdate(client_firstname, client_lastname, client_email, client_id)
+  const client_info = await accountModel.getClientById(client_id)
+  if (updateResult) {
+    res.render("clients/loggedIn",{
+      title: "Account Management",
+      client_type: client_info.client_type,
+      name: client_firstname,
+      nav,
+      errors: null, 
+      message: `Congratulations, ${client_firstname} ${client_lastname} you\'re information is updated!`,
+      editAccountPath,
+    })
+  } else {
+    const message = "Sorry, the update failed."
+    res.status(501).render(`clients/edit-account`, {
+      title: "Edit Account",
+      name: client_firstname,
+      nav,
+      errors: null, 
+      message,
+      client_id: client_id,
+      client_firstname: client_firstname,
+      client_lastname: client_lastname,
+      client_email: client_email,
+    })
+  }
+}
+
+/* ****************************************
+ *  Process change of password request
+ **************************************** */
+async function ChangePassword(req, res) {
+  let nav = await utilities.getNav()
+  const { client_password, client_id } = req.body;
+  const editAccountPath = `/clients/edit-account/${client_id}`;
+  let hashedPassword
+  // pass regular password and cost (salt is generated automatically)
+  hashedPassword = await bcrypt.hashSync(client_password, 10)
+  // change the client password
+  const passwordUpdateResult = await accountModel.ChangePassword(hashedPassword, client_id)
+  const client_info = await accountModel.getClientById(client_id)
+  if (passwordUpdateResult) {
+    res.render("clients/loggedIn",{
+      title: "Account Management",
+      client_type: client_info.client_type,
+      name: client_info.client_firstname,
+      nav,
+      errors: null, 
+      message: `Congratulations, ${client_info.client_firstname} ${client_info.client_lastname} you\'re password has been updated!`,
+      editAccountPath,
+    })
+  } else {
+    const message = "Sorry, the update failed."
+    res.status(501).render(`clients/edit-account`, {
+      title: "Edit Account",
+      name: client_firstname,
+      nav,
+      errors: null, 
+      message,
+      client_id: client_id,
+      client_firstname: null,
+      client_lastname: null,
+      client_email: null
+    })
+  }
+}
+
+  module.exports = { buildLogin, buildRegister, registerClient, loginClient, buildManagement, logoutClient, buildError, editInfoAccount, accountInfoUpdate, ChangePassword };

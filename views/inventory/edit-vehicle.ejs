@@ -1,0 +1,80 @@
+<div class="background">
+    <div class="register-box">
+    <% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else { 
+          res.redirect('/') 
+    } %>
+
+    <% if (message) { %>
+    <p class="loginValid"><%= message %></p>
+    <% } %>
+    <br>
+
+    
+        <form action="/inv/update/" method="post">
+            <% if (errors) { %>
+                <ul class="notice">
+               <% errors.array().forEach(error => { %>
+                 <li><%= error.msg %></li>
+              <%  }) %>
+               </ul>
+              <% } %>
+            <div class="email-password">
+                <label for="classification_id">Classification:</label>
+                <%- dropdown %>
+            </div>
+            
+            <div class="email-password">
+                <label for="inv_make">Make: </label>
+                <input type="text" id="inv_make" name="inv_make" placeholder="e.g. Toyota" required pattern="^[A-Za-z\s]{1,20}$" value="<%= inv_make %>">
+            </div>
+
+            <div class="email-password">
+                <label for="inv_model">Model: </label>
+                <input type="text" id="inv_model" name="inv_model" placeholder="e.g. Prius" required pattern="^[A-Za-z0-9\s]{1,20}$" value="<%= inv_model %>">
+            </div>
+
+            <div class="email-password">
+                <label for="inv_year">Year: </label>
+                <input type="text" id="inv_year" name="inv_year" placeholder="e.g. 2018" required pattern="^[0-9]{4}$" value="<%= inv_year %>">
+            </div>
+
+            <div class="email-password">
+                <label for="inv_description">Description: </label>
+                <textarea id="inv_description" name="inv_description" rows="6" cols="39" placeholder="e.g.  One of the first commercially successful cars, that runs at lower speeds on an electric motor powered by a battery pack, and at higher speeds on a gasoline engine, which can also recharge the battery." required maxlength="206"><%= inv_description %></textarea>
+            </div>
+
+            <div class="email-password">
+                <label for="inv_image">Image: </label>
+                <input type="text" id="inv_image" name="inv_image" value="/images/vehicles/no-image.png" required pattern="^[\/a-zA-Z0-9%\$\.\-]+">
+            </div>
+
+            <div class="email-password">
+                <label for="inv_thumbnail">Thumbnail: </label>
+                <input type="text" id="inv_thumbnail" name="inv_thumbnail" value="/images/vehicles/no-image-tn.png" required pattern="^[\/a-zA-Z0-9%\$\.\-]+">
+            </div>
+
+            <div class="email-password">
+                <label for="inv_price">Price: </label>
+                <input type="text" id="inv_price" name="inv_price" placeholder="e.g. 18000" required pattern="^\d+\.?\d*$" value="<%= inv_price %>">
+            </div>
+
+            <div class="email-password">
+                <label for="inv_miles">Miles: </label>
+                <input type="text" id="inv_miles" name="inv_miles" placeholder="e.g. 100000" required pattern="^[0-9]{1,6}$" value="<%= inv_miles %>">
+            </div>
+            
+            <div class="email-password">
+                <label for="inv_color">Color: </label>
+                <input type="text" id="inv_color" name="inv_color" placeholder="e.g. Blue" required pattern="^[A-Za-z\s]{1,20}$" value="<%= inv_color %>">
+            </div>
+
+            <br>
+            <input type="submit" value="Update Vehicle">
+            <input type="hidden" name="inv_id"
+                <% if(inv_id) { %> value="<%=inv_id%>"
+                <% } %>>
+        </form>
+    </div>
+</div>

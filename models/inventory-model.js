@@ -21,7 +21,8 @@ async function getVehiclesByClassificationId(classificationId){
 
 async function getVehicleById(detailId){
   try{
-    const data = await pool.query(`SELECT inv_make, inv_model, inv_price, inv_description, inv_color, inv_miles, inv_image, inv_year FROM public.inventory WHERE inv_id = ${detailId};`)
+    // I just changed this function to add classification_id to the query so I can use it at invCont.editDetailId, I think this might create an error at other functions calling this getVehiclesById
+    const data = await pool.query(`SELECT inv_make, inv_model, inv_price, inv_description, inv_color, inv_miles, inv_image, inv_year, classification_id FROM public.inventory WHERE inv_id = ${detailId};`)
     return data.rows
   }catch (error) {
     console.error('get details by id error' + error)
@@ -52,6 +53,29 @@ async function addVehicle(
   }
 }
 
+async function updateVehicle(
+  classification_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles , inv_color, inv_id
+) {
+  try{ 
+    const sql = "UPDATE public.inventory SET inv_make = $1, inv_model = $2, inv_description = $3, inv_image = $4, inv_thumbnail = $5, inv_price = $6, inv_year = $7, inv_miles = $8, inv_color = $9, classification_id = $10 WHERE inv_id = $11 RETURNING *"
+    return await pool.query(sql, [inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles , inv_color, classification_id, inv_id]);
 
+  }catch (error) {
+    console.error('updateVehicle error at the inventory-model' + error);
+    return error.message;
+  }
+}
 
-module.exports = {getClassifications, getVehiclesByClassificationId, getVehicleById, addClassification, addVehicle};
+// it will delete the vehicle from the db
+async function deleteVehicle(inv_id) {
+  try{ 
+    const sql = "DELETE FROM public.inventory WHERE inv_id = $1 RETURNING *"
+    return await pool.query(sql, [inv_id]);
+
+  }catch (error) {
+    console.error('Delete error at the inventory-model' + error);
+    return error.message;
+  }
+}
+
+module.exports = {getClassifications, getVehiclesByClassificationId, getVehicleById, addClassification, addVehicle, updateVehicle, deleteVehicle};

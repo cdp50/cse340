@@ -112,7 +112,6 @@ Util.jwtAuth = (req, res, next) => {
 **************************************** */
 
 Util.checkClientLogin = ( req, res, next )=> {
-  
   if(req.cookies.jwt){
     res.locals.loggedIn = 1
     next()

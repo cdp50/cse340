@@ -15,8 +15,7 @@ validate.vehicleRegistrationRules = () => {
       body("classification_id")
         .trim()
         .escape()
-        .isLength({ min: 3 })
-        .isAlpha()
+        .isInt()
         .withMessage("Please provide the classification of the vehicle."), // on error this message is sent.
 
       // make is required and must be string
@@ -47,12 +46,12 @@ validate.vehicleRegistrationRules = () => {
         .withMessage("Year has to be 4 digits e.g. 2022")
         .withMessage("Please provide the year of the vehicle."), // on error this message is sent.
 
-        // description is required and can contain string, integer, and symbols.
+      // description is required and can contain string, integer, and symbols.
       body("inv_description")
         .trim()
         .isLength({ max: 206 })
-        .isLength({ min: 20 })
         .withMessage("The description can't be longer than 4 lines.")
+        .isLength({ min: 20 })
         .withMessage("Please provide the description of the vehicle."), // on error this message is sent.
 
         // image is required and can contain string, integer, and symbols.
@@ -169,6 +168,40 @@ validate.checkNewClaData = async (req, res, next) => {
         return
     }
     next()
+}
+
+/*  **********************************
+*  Check data and return errors or continue to edit vehicle
+* ********************************* */
+validate.checkUpdateData = async (req, res, next) => {
+  const { classification_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, inv_id } = req.body;
+  let title = "Edit " + inv_make + " " + inv_model;
+  let errors = []
+  errors = validationResult(req)
+  if (!errors.isEmpty()) {
+      let nav = await utilities.getNav()
+      let dropdown = await utilities.getDropdown(classification_id)
+      res.render ("../views/inventory/edit-vehicle", {
+      errors,
+      message: null, 
+      title, 
+      nav, 
+      dropdown,
+      classification_id,
+      inv_make, 
+      inv_model, 
+      inv_year, 
+      inv_description, 
+      inv_image, 
+      inv_thumbnail, 
+      inv_price, 
+      inv_miles, 
+      inv_color,
+      inv_id,
+      })
+      return
+  }
+  next()
 }
 
 

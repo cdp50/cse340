@@ -1,0 +1,66 @@
+<div class="background">
+    <div class="register-box">
+        <% if (title) { %>
+        <h1><%= title %></h1>
+        <% } else { 
+              res.redirect('/') 
+        } %>
+
+        <div class="messageCentered">
+            <% if (message) { %>
+            <p class="loginValid"><%= message %></p>
+            <% } %>
+        </div>
+        <% if (errors) { %>
+            <ul class="notice">
+           <% errors.array().forEach(error => { %>
+             <li><%= error.msg %></li>
+          <%  }) %>
+           </ul>
+          <% } %>
+        <div class="editForms">
+        <form class="editAccount" action="/clients/account-update" method="post">
+            <h2>Update Information</h2>
+
+            <label for="firstname">Name *</label>
+            <input autocomplete="on" type="text" id="firstname" name="client_firstname" placeholder="First name:" required value="<%= client_firstname %>">
+            <br>
+            <label for="lastname" >Lastname *</label>
+            <input autocomplete="on" type="text" id="lastname" name="client_lastname" placeholder="Last name:" required value="<%= client_lastname %>">
+            <br>
+            <label for="email">Email Address *</label>
+            <input autocomplete="on" type="email" id="email" name="client_email" placeholder="e.g. hello@contact.net" required value="<%= client_email %>">
+            
+            <input type="submit" value="Update">
+            <input type="hidden" name="client_id"
+            <% if(client_id) { %> value="<%=client_id%>"
+            <% } %>>
+            
+        </form> 
+        
+        <form class="editAccount" action="/clients/change-password" method="post">
+            <h2>Update Password</h2>
+            <div class="email-password">
+                <label for="password">Password *</label>
+                <input type="password" id="password" name="client_password" placeholder="  ********  " required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
+            </div>
+
+            <ul class="passwordRulesRegister">
+                <li> <strong> Password must contain: </strong> </li>
+                <li>at least 12 characters</li>
+                <li>at least one number</li>
+                <li>at least one capital letter</li>
+                <li>at least one $#% symbol</li>
+            </ul>
+            <div class="showPassword">
+                <input type="checkbox" id="checkbox" name="checkbox" onclick="showPassword()">
+                <label for="checkbox">Show Password </label><br>
+                <input type="submit" value="Update Password">
+                <input type="hidden" name="client_id"
+                <% if(client_id) { %> value="<%=client_id%>"
+                <% } %>>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
