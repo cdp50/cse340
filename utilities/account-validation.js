@@ -168,7 +168,7 @@ validate.infoUpdateRules = () => {
       //   const accBeforeUpdate = await accountModel.getClientById(client_id);
       //   if(accBeforeUpdate.client_email != client_email){
       //     const emailExists = await accountModel.checkExistingEmail(client_email)
-      //     if (emailExists){
+      //     if (emailExists){ "and this email that exist can't be the same"
       //       throw new Error("Email already exists. Please use a different email")
       //     }
       //   }

@@ -171,32 +171,52 @@ async function accountInfoUpdate(req, res) {
   let nav = await utilities.getNav()
   const { client_firstname, client_lastname, client_email, client_id } = req.body;
   const editAccountPath = `/clients/edit-account/${client_id}`;
-  // change the client information
-  const updateResult = await accountModel.accountUpdate(client_firstname, client_lastname, client_email, client_id)
-  const client_info = await accountModel.getClientById(client_id)
-  if (updateResult) {
-    res.render("clients/loggedIn",{
-      title: "Account Management",
-      client_type: client_info.client_type,
-      name: client_firstname,
-      nav,
-      errors: null, 
-      message: `Congratulations, ${client_firstname} ${client_lastname} you\'re information is updated!`,
-      editAccountPath,
-    })
-  } else {
-    const message = "Sorry, the update failed."
+  // if the original email and the form email are different
+  // it will check if the new email is already taken
+  const accBeforeUpdate = await accountModel.getClientById(client_id);
+  if(accBeforeUpdate.client_email != client_email){ // then I can confirm that they are different, so now is safe to use checkExistingEmail()
+    const emailExists = await accountModel.checkExistingEmail(client_email)
+    if (emailExists){
     res.status(501).render(`clients/edit-account`, {
       title: "Edit Account",
       name: client_firstname,
       nav,
-      errors: null, 
-      message,
+      errors: `Email ${client_email} already exists. Please use a different email`,
+      message: null,
       client_id: client_id,
       client_firstname: client_firstname,
       client_lastname: client_lastname,
       client_email: client_email,
     })
+    }
+  }else{
+    // change the client information
+    const updateResult = await accountModel.accountUpdate(client_firstname, client_lastname, client_email, client_id)
+    const client_info = await accountModel.getClientById(client_id)
+    if (updateResult) {
+      res.render("clients/loggedIn",{
+        title: "Account Management",
+        client_type: client_info.client_type,
+        name: client_firstname,
+        nav,
+        errors: null, 
+        message: `Congratulations, ${client_firstname} ${client_lastname} you\'re information is updated!`,
+        editAccountPath,
+      })
+    } else {
+      const message = "Sorry, the update failed."
+      res.status(501).render(`clients/edit-account`, {
+        title: "Edit Account",
+        name: client_firstname,
+        nav,
+        errors: null, 
+        message,
+        client_id: client_id,
+        client_firstname: client_firstname,
+        client_lastname: client_lastname,
+        client_email: client_email,
+      })
+    }
   }
 }
 

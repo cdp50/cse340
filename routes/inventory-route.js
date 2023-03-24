@@ -2,7 +2,6 @@
 const express = require("express");
 const router = new express.Router();
 const invController = require("../controllers/invController");
-const validate = require("../utilities/inventory-validation");
 const regValidate = require('../utilities/inventory-validation');
 const utilities = require("../utilities");
 
@@ -27,9 +26,10 @@ utilities.checkClientLogin,
 utilities.handleErrors(invController.buildAddClassification));
 
 router.post("/add-classification", 
-    regValidate.newClassificationRules(),
-    regValidate.checkNewClaData,
-    utilities.handleErrors(invController.addClassification));
+utilities.checkClientLogin,
+regValidate.newClassificationRules(),
+regValidate.checkNewClaData,
+utilities.handleErrors(invController.addClassification));
 
 router.get("/add-vehicle", 
 utilities.jwtAuth, 
@@ -37,22 +37,24 @@ utilities.checkClientLogin,
 utilities.handleErrors(invController.buildAddVehicle));
 
 router.post("/add-vehicle",
-    regValidate.vehicleRegistrationRules(),
-    regValidate.checkVeData,
-    utilities.handleErrors(invController.addVehicle)
-    );
+utilities.checkClientLogin,
+regValidate.vehicleRegistrationRules(),
+regValidate.checkVeData,
+utilities.handleErrors(invController.addVehicle)
+);
 // route to get the vehicles modification table
 router.get("/getVehicles/:classification_id", 
     invController.getVehiclesJSON);
 
 // route to get edit vehicle details
 router.get("/edit/:detailId",
-    utilities.jwtAuth, 
-    utilities.checkClientLogin, 
-    utilities.handleErrors(invController.editDetailId));
-    
+utilities.jwtAuth, 
+utilities.checkClientLogin, 
+utilities.handleErrors(invController.editDetailId));
+
 // route to post the updated vehicle details
 router.post("/update/",
+utilities.checkClientLogin,
 regValidate.vehicleRegistrationRules(),
 regValidate.checkUpdateData,
 utilities.handleErrors(invController.updateVehicle));
@@ -65,8 +67,7 @@ utilities.handleErrors(invController.deleteVehicleView));
 
 // route to actually delete vehicle
 router.post("/delete/",
-// regValidate.vehicleRegistrationRules(),
-// regValidate.checkUpdateData,
+utilities.checkClientLogin,
 utilities.handleErrors(invController.deleteVehicle));
 
 module.exports = router;             

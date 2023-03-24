@@ -97,6 +97,7 @@ invCont.addClassification = async function (req, res, next) {
             errors: null,
             addNewClassification: addClassification,
             addNewVehicle: addVehicle,
+            classificationSelect: null
         })
     } else {
         const message = "Sorry, the new classification registration failed."
@@ -107,6 +108,7 @@ invCont.addClassification = async function (req, res, next) {
             errors: null,
             addNewClassification: addClassification,
             addNewVehicle: addVehicle,
+            classificationSelect: null
         })
     }
 }
@@ -146,6 +148,7 @@ invCont.addVehicle = async function (req, res, next) {
         classification_id, inv_make,inv_model,inv_year, 
         inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, 
         } = req.body;
+    let dropdown = await utilities.getDropdown();
     const result = await invModel.addVehicle(classification_id, inv_make, inv_model, 
         inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color,);
     let addClassification = "../../inv/add-classification";
@@ -159,6 +162,7 @@ invCont.addVehicle = async function (req, res, next) {
             errors: null,
             addNewClassification: addClassification,
             addNewVehicle: addVehicle,
+            classificationSelect: dropdown,
         })
     } else {
         const message = "Sorry, the new vehicle registration failed."
@@ -169,6 +173,7 @@ invCont.addVehicle = async function (req, res, next) {
             errors: null,
             addNewClassification: addClassification,
             addNewVehicle: addVehicle,
+            classificationSelect: dropdown,
         })
     }
 }
@@ -231,41 +236,50 @@ invCont.editDetailId = async function (req, res, next) {
  *  Update Vehicle Data
  * ************************** */
 invCont.updateVehicle = async function (req, res, next) {
+    let nav = await utilities.getNav();
     let dropdown = await utilities.getDropdown();
     const title = "Edit Vehicle";
-    const { 
+    var { 
         classification_id, inv_make,inv_model,inv_year, 
         inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, inv_id
-        } = req.body;
+    } = req.body;
+    inv_miles = parseInt(inv_miles);
+    classification_id = parseInt(classification_id);
+    let dropdownSelected = await utilities.getDropdown(classification_id);
+
         // this is an attempt to return an error message if no change to the form has been done. 
-    // const formData = {inv_make, inv_model, inv_price, inv_description, inv_color, inv_miles, inv_image, inv_year, classification_id}
-    // let [dbData] = await invModel.getVehicleById(inv_id)
-    // if(JSON.stringify(dbData) === JSON.stringify(formData)){
-    //     res.render("./inventory/edit-vehicle", {
-    //         title: "Edit " + inv_make + " " + inv_model,
-    //         nav,
-    //         dropdown,
-    //         message: null,
-    //         errors: "No change detected, make sure to edit the vehicle information",
-    //         inv_id: inv_id,
-    //         inv_make: data.inv_make,
-    //         inv_model: data.inv_model,
-    //         inv_year: data.inv_year,
-    //         inv_description: data.inv_description,
-    //         inv_image: data.inv_image,
-    //         inv_thumbnail: data.inv_thumbnail,
-    //         inv_price: data.inv_price,
-    //         inv_miles: data.inv_miles,
-    //         inv_color: data.inv_color,
-    //         classification_id: data.classification_id
-    //     })
-    // }
-    
+        // but it won't work because inv_miles and classification_id are int at the database.
+    const formData = {inv_make, inv_model, inv_price, inv_description, inv_color, inv_miles, inv_image, inv_year, classification_id}
+    let [dbData] = await invModel.getVehicleById(inv_id)
+    // console.log(JSON.stringify(dbData))
+    // console.log(JSON.stringify(formData))
+    // console.log(JSON.stringify(dbData) == JSON.stringify(formData))
+
+    if(JSON.stringify(dbData) === JSON.stringify(formData)){
+        res.render("./inventory/edit-vehicle", {
+            title: "Edit " + inv_make + " " + inv_model,
+            nav,
+            dropdown: dropdownSelected,
+            message: null,
+            errors: "No change detected, make sure to edit the vehicle information",
+            inv_id: inv_id,
+            inv_make: inv_make,
+            inv_model: inv_model,
+            inv_year: inv_year,
+            inv_description: inv_description,
+            inv_image: inv_image,
+            inv_thumbnail: inv_thumbnail,
+            inv_price: inv_price,
+            inv_miles: inv_miles,
+            inv_color: inv_color,
+            classification_id: classification_id
+        })
+    }
     const updateResult = await invModel.updateVehicle(classification_id, inv_make, inv_model, 
         inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, inv_id);
     let addClassification = "../../inv/add-classification";
     let addVehicle = "../../inv/add-vehicle";
-    let nav = await utilities.getNav();
+    
     if(updateResult){
         
         res.status(201).render("./inventory/management-view", {

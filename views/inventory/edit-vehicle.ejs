@@ -14,12 +14,8 @@
     
         <form action="/inv/update/" method="post">
             <% if (errors) { %>
-                <ul class="notice">
-               <% errors.array().forEach(error => { %>
-                 <li><%= error.msg %></li>
-              <%  }) %>
-               </ul>
-              <% } %>
+                <div class="messageCentered"><p class="notice"><%= errors %></p></div>
+                <% } %>
             <div class="email-password">
                 <label for="classification_id">Classification:</label>
                 <%- dropdown %>

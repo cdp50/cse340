@@ -6,18 +6,14 @@
               res.redirect('/') 
         } %>
 
-        <div class="messageCentered">
-            <% if (message) { %>
-            <p class="loginValid"><%= message %></p>
-            <% } %>
-        </div>
+        
+        <% if (message) { %>
+            <div class="messageCentered"><p class="loginValid"><%= message %></p></div>
+        <% } %>
+        
         <% if (errors) { %>
-            <ul class="notice">
-           <% errors.array().forEach(error => { %>
-             <li><%= error.msg %></li>
-          <%  }) %>
-           </ul>
-          <% } %>
+            <div class="messageCentered"><p class="notice"><%= errors %></p></div>
+        <% } %>
         <div class="editForms">
         <form class="editAccount" action="/clients/account-update" method="post">
             <h2>Update Information</h2>

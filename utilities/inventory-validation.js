@@ -30,7 +30,7 @@ validate.vehicleRegistrationRules = () => {
       body("inv_model")
         .trim()
         .escape()
-        .isLength({ min: 3 })
+        .isLength({ min: 2 })
         .isAlphanumeric()
         .withMessage("Please provide the model of the vehicle."), // on error this message is sent.
   
