@@ -31,7 +31,6 @@ validate.vehicleRegistrationRules = () => {
         .trim()
         .escape()
         .isLength({ min: 2 })
-        .isAlphanumeric()
         .withMessage("Please provide the model of the vehicle."), // on error this message is sent.
   
       // year is required and must be a 4 digits integer 
@@ -103,13 +102,14 @@ validate.vehicleRegistrationRules = () => {
 * ********************************* */
 validate.checkVeData = async (req, res, next) => {
     const { classification_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color } = req.body
-    let errors = []
-    errors = validationResult(req)
-    if (!errors.isEmpty()) {
+    let validationErrors = []
+    validationErrors = validationResult(req)
+    if (!validationErrors.isEmpty()) {
         let nav = await utilities.getNav()
         let dropdown = await utilities.getDropdown(classification_id)
         res.render ("../views/inventory/add-vehicle", {
-        errors,
+        validationErrors,
+        errors:null,
         message: null, 
         title: "Add new vehicle", 
         nav, 
@@ -134,7 +134,7 @@ validate.checkVeData = async (req, res, next) => {
  *  Registration Data Validation Rules.
  *  this will return only the rules
  *  checkNewClaData will use this rules 
- *  to check if there are errors
+ *  to check if there are validationErrors
  *  if there are it will return them. 
  * ********************************* */
 validate.newClassificationRules = () => {
@@ -150,16 +150,17 @@ validate.newClassificationRules = () => {
 }
 
 /*  **********************************
-*  Check data and return errors or continue to registration
+*  Check data and return validationErrors or continue to registration
 * ********************************* */
 validate.checkNewClaData = async (req, res, next) => {
     const { classificationName } = req.body
-    let errors = []
-    errors = validationResult(req)
-    if (!errors.isEmpty()) {
+    let validationErrors = []
+    validationErrors = validationResult(req)
+    if (!validationErrors.isEmpty()) {
         let nav = await utilities.getNav()
         res.render ("../views/inventory/add-classification", {
-        errors,
+        validationErrors,
+        errors:null,
         message: null, 
         title: "Add new Classification", 
         nav, 
@@ -176,13 +177,14 @@ validate.checkNewClaData = async (req, res, next) => {
 validate.checkUpdateData = async (req, res, next) => {
   const { classification_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, inv_id } = req.body;
   let title = "Edit " + inv_make + " " + inv_model;
-  let errors = []
-  errors = validationResult(req)
-  if (!errors.isEmpty()) {
+  let validationErrors = []
+  validationErrors = validationResult(req)
+  if (!validationErrors.isEmpty()) {
       let nav = await utilities.getNav()
       let dropdown = await utilities.getDropdown(classification_id)
       res.render ("../views/inventory/edit-vehicle", {
-      errors,
+      validationErrors,
+      errors:null,
       message: null, 
       title, 
       nav, 

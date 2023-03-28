@@ -231,6 +231,7 @@ textarea {
   margin-bottom: 10px;
   resize: none;
 }
+
 .notice{
   padding: 0px;
   display: flex;
@@ -248,7 +249,7 @@ textarea {
   margin-bottom: 2em;
 }
 .notice li {
-  list-style-type:disc;
+  list-style-type:none;
 }
 .loginValid{
   margin-bottom: 1em;

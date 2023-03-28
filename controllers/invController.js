@@ -8,7 +8,6 @@ invCont.buildByClassification = async function (req, res, next) {
     let data = await invModel.getVehiclesByClassificationId(classificationId)
     let nav = await utilities.getNav()
     const className = data[0].classification_name
-    
     res.render("./inventory/classification-view", {
         title: className + " vehicles",
         nav, 
@@ -209,6 +208,7 @@ invCont.editDetailId = async function (req, res, next) {
             dropdown,
             message: null,
             errors: null,
+            validationErrors: null,
             inv_id: res.locals.detailId,
             inv_make: data.inv_make,
             inv_model: data.inv_model,
@@ -249,19 +249,22 @@ invCont.updateVehicle = async function (req, res, next) {
 
         // this is an attempt to return an error message if no change to the form has been done. 
         // but it won't work because inv_miles and classification_id are int at the database.
-    const formData = {inv_make, inv_model, inv_price, inv_description, inv_color, inv_miles, inv_image, inv_year, classification_id}
+    const formData = {inv_make, inv_model, inv_price, inv_description, inv_color, inv_miles, inv_image, inv_thumbnail, inv_year, classification_id}
     let [dbData] = await invModel.getVehicleById(inv_id)
     // console.log(JSON.stringify(dbData))
     // console.log(JSON.stringify(formData))
     // console.log(JSON.stringify(dbData) == JSON.stringify(formData))
-
+    console.log("this is the update vehicle change check")
+    console.log(JSON.stringify(dbData) === JSON.stringify(formData))
     if(JSON.stringify(dbData) === JSON.stringify(formData)){
+        const errors = "No change detected, make sure to edit the vehicle information";
         res.render("./inventory/edit-vehicle", {
             title: "Edit " + inv_make + " " + inv_model,
             nav,
             dropdown: dropdownSelected,
             message: null,
-            errors: "No change detected, make sure to edit the vehicle information",
+            validationErrors: null,
+            errors,
             inv_id: inv_id,
             inv_make: inv_make,
             inv_model: inv_model,
@@ -274,6 +277,7 @@ invCont.updateVehicle = async function (req, res, next) {
             inv_color: inv_color,
             classification_id: classification_id
         })
+        
     }
     const updateResult = await invModel.updateVehicle(classification_id, inv_make, inv_model, 
         inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, inv_id);

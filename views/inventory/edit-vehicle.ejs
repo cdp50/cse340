@@ -9,13 +9,22 @@
     <% if (message) { %>
     <div class="messageCentered"><p class="loginValid"><%= message %></p></div>
     <% } %>
+
+    <% if (errors) { %>
+    <div class="messageCentered"><p class="notice"><%= errors %></p></div>
+    <% } %>
+
+    <% if (validationErrors) { %>
+        <ul class="notice messageCentered">
+        <% validationErrors.errors.forEach(error => { %>
+         <li><%= error.msg %></li>
+         <%  }) %>
+       </ul>
+      <% } %>
     <br>
 
-    
         <form action="/inv/update/" method="post">
-            <% if (errors) { %>
-                <div class="messageCentered"><p class="notice"><%= errors %></p></div>
-                <% } %>
+            
             <div class="email-password">
                 <label for="classification_id">Classification:</label>
                 <%- dropdown %>
@@ -43,12 +52,12 @@
 
             <div class="email-password">
                 <label for="inv_image">Image: </label>
-                <input type="text" id="inv_image" name="inv_image" value="/images/vehicles/no-image.png" required pattern="^[\/a-zA-Z0-9%\$\.\-]+">
+                <input type="text" id="inv_image" name="inv_image" value="<%= inv_image %>" required pattern="^[\/a-zA-Z0-9%\$\.\-]+">
             </div>
 
             <div class="email-password">
                 <label for="inv_thumbnail">Thumbnail: </label>
-                <input type="text" id="inv_thumbnail" name="inv_thumbnail" value="/images/vehicles/no-image-tn.png" required pattern="^[\/a-zA-Z0-9%\$\.\-]+">
+                <input type="text" id="inv_thumbnail" name="inv_thumbnail" value="<%= inv_thumbnail %>" required pattern="^[\/a-zA-Z0-9%\$\.\-]+">
             </div>
 
             <div class="email-password">

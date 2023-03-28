@@ -22,7 +22,7 @@ async function getVehiclesByClassificationId(classificationId){
 async function getVehicleById(detailId){
   try{
     // I just changed this function to add classification_id to the query so I can use it at invCont.editDetailId, I think this might create an error at other functions calling this getVehiclesById
-    const data = await pool.query(`SELECT inv_make, inv_model, inv_price, inv_description, inv_color, inv_miles, inv_image, inv_year, classification_id FROM public.inventory WHERE inv_id = ${detailId};`)
+    const data = await pool.query(`SELECT inv_make, inv_model, inv_price, inv_description, inv_color, inv_miles, inv_image, inv_thumbnail, inv_year, classification_id FROM public.inventory WHERE inv_id = ${detailId};`)
     return data.rows
   }catch (error) {
     console.error('get details by id error' + error)
