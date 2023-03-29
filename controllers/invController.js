@@ -69,6 +69,7 @@ invCont.buildAddClassification = async function (req, res, next) {
             nav,
             message: null,
             errors:null,
+            validationErrors:null,
         })
     } else if(req.clientData.client_type == "Client" || req.clientData.client_type == undefined){
         res.render("clients/login", {
@@ -126,6 +127,7 @@ invCont.buildAddVehicle = async function (req, res, next) {
             dropdown,
             message: null,
             errors: null,
+            validationErrors:null,
         })
     } else if(req.clientData.client_type == "Client" || req.clientData.client_type == undefined){
         res.render("clients/login", {

@@ -156,6 +156,8 @@ validate.checkNewClaData = async (req, res, next) => {
     const { classificationName } = req.body
     let validationErrors = []
     validationErrors = validationResult(req)
+    console.log("validationErrors")
+    console.log(validationErrors)
     if (!validationErrors.isEmpty()) {
         let nav = await utilities.getNav()
         res.render ("../views/inventory/add-classification", {
