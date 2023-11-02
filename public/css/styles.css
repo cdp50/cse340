@@ -9,6 +9,9 @@
   color: black;
   padding-left: 10px;
 }
+.shop{
+  font-weight: 100;
+}
 .errorPageImg{
   max-width: 100%;
   margin-top: 20px;
@@ -88,9 +91,9 @@ table{
   color: black;
   font-family:Arial, Helvetica, sans-serif;
   font-size: clamp(30px, 3vw, 30px);
-  right: 13%;
+  right: 10%;
   top: 68%;
-  -webkit-text-stroke: .5px white;
+  /* -webkit-text-stroke: .5px white; */
   max-width: 80%;
 }
 .errorTitle{
@@ -101,7 +104,7 @@ table{
   font-size: 50px;
   right: 41%;
   top: 4%;
-  -webkit-text-stroke: 1px white;
+  /* -webkit-text-stroke: 1px white; */
 }
 header{
   display: flex;
@@ -454,8 +457,12 @@ ul {
   cursor: pointer;
 }
 body{
-  background-image: url("../images/site/checkerboard.jpg");
+  background: black;
 }
+.background{
+  /* background: rgb(40,40,40); */
+}
+
 nav{
   border-left: 5px solid rgb(1,176,211);
   border-right: 5px solid rgb(1,176,211);
@@ -487,7 +494,7 @@ footer{
   padding-top: 10px;
   padding-bottom: 10px;
 }
-@media only screen and (max-width: 430px) {
+@media only screen and (max-width: 1030px) {
   body h1 {
     font-size:2em;
     font-weight: bold;
