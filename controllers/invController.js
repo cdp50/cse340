@@ -19,6 +19,12 @@ invCont.buildByClassification = async function (req, res, next) {
 invCont.buildById = async function (req, res, next) {
     const detailId = req.params.detailId;
     let data = await invModel.getVehicleById(detailId)
+    if(!data || data.length === 0){
+        const err = new Error("Page not found")
+        err.status = 404
+        throw err
+    }
+    console.log("data: ",data)
     let nav = await utilities.getNav();
     const htmlBody = await utilities.getDescription(data)
     const detailName = data[0].inv_year + " " + data[0].inv_make + " " + data[0].inv_model;
@@ -39,7 +45,7 @@ invCont.buildManagement = async function (req, res, next) {
     let addClassification = "../../inv/add-classification";
     let addVehicle = "../../inv/add-vehicle";
     
-    if(req.clientData.client_type == "Admin" || req.clientData.client_type == "Employee"){
+    if(res.locals.clientData.client_type == "Admin" || res.locals.clientData.client_type == "Employee"){
         res.render("./inventory/management-view", {
             title: title,
             nav,
@@ -48,7 +54,7 @@ invCont.buildManagement = async function (req, res, next) {
             addNewVehicle: addVehicle,
             classificationSelect,
         })
-    } else if(req.clientData.client_type == "Client" || req.clientData.client_type == undefined){
+    } else if(res.locals.clientData.client_type == "Client" || res.locals.clientData.client_type == undefined){
         res.render("clients/login", {
             title: `Access Denied`,
             nav,
@@ -63,7 +69,7 @@ invCont.buildAddClassification = async function (req, res, next) {
     let nav = await utilities.getNav();
     let title = "Add New Classification";
 
-    if(req.clientData.client_type == "Admin" || req.clientData.client_type == "Employee"){
+    if(res.locals.clientData.client_type == "Admin" || res.locals.clientData.client_type == "Employee"){
         res.render("./inventory/add-classification", {
             title: title,
             nav,
@@ -71,7 +77,7 @@ invCont.buildAddClassification = async function (req, res, next) {
             errors:null,
             validationErrors:null,
         })
-    } else if(req.clientData.client_type == "Client" || req.clientData.client_type == undefined){
+    } else if(res.locals.clientData.client_type == "Client" || res.locals.clientData.client_type == undefined){
         res.render("clients/login", {
             title: `Access Denied`,
             nav,
@@ -121,7 +127,7 @@ invCont.buildAddVehicle = async function (req, res, next) {
     let title = "Add New Vehicle";
     let nav = await utilities.getNav();
     let dropdown = await utilities.getDropdown();
-    if(req.clientData.client_type == "Admin" || req.clientData.client_type == "Employee"){
+    if(res.locals.clientData.client_type == "Admin" || res.locals.clientData.client_type == "Employee"){
         res.render("./inventory/add-vehicle", {
             title: title,
             nav,
@@ -130,7 +136,7 @@ invCont.buildAddVehicle = async function (req, res, next) {
             errors: null,
             validationErrors:null,
         })
-    } else if(req.clientData.client_type == "Client" || req.clientData.client_type == undefined){
+    } else if(res.locals.clientData.client_type == "Client" || res.locals.clientData.client_type == undefined){
         res.render("clients/login", {
             title: `Access Denied`,
             nav,
@@ -167,6 +173,7 @@ invCont.addVehicle = async function (req, res, next) {
             classificationSelect: dropdown,
         })
     } else {
+        let dropdown = await utilities.getDropdown(classification_id);
         const message = "Sorry, the new vehicle registration failed."
         res.status(501).render("./inventory/management-view", {
             title: title,
@@ -204,7 +211,7 @@ invCont.editDetailId = async function (req, res, next) {
     console.log(data);
     let title = "Edit " + data.inv_make + " " + data.inv_model;
     let dropdown = await utilities.getDropdown(data.classification_id);
-    if(req.clientData.client_type == "Admin" || req.clientData.client_type == "Employee"){
+    if(res.locals.clientData.client_type == "Admin" || res.locals.clientData.client_type == "Employee"){
         res.render("./inventory/edit-vehicle", {
             title: title,
             nav,
@@ -224,7 +231,7 @@ invCont.editDetailId = async function (req, res, next) {
             inv_color: data.inv_color,
             classification_id: data.classification_id
         })
-    } else if(req.clientData.client_type == "Client" || req.clientData.client_type == undefined){
+    } else if(res.locals.clientData.client_type == "Client" || res.locals.clientData.client_type == undefined){
         res.render("clients/login", {
             title: `Access Denied`,
             nav,
@@ -323,7 +330,7 @@ invCont.deleteVehicleView = async function (req, res, next) {
     console.log(data);
     let title = "Delete " + data.inv_make + " " + data.inv_model +"?";
     // let dropdown = await utilities.getDropdown(data.classification_id);
-    if(req.clientData.client_type == "Admin" || req.clientData.client_type == "Employee"){
+    if(res.locals.clientData.client_type == "Admin" || res.locals.clientData.client_type == "Employee"){
         res.render("./inventory/delete-confirm", {
             title: title,
             nav,
@@ -337,7 +344,7 @@ invCont.deleteVehicleView = async function (req, res, next) {
             inv_price: data.inv_price,
             classification_id: data.classification_id
         })
-    } else if(req.clientData.client_type == "Client" || req.clientData.client_type == undefined){
+    } else if(res.locals.clientData.client_type == "Client" || res.locals.clientData.client_type == undefined){
         res.render("clients/login", {
             title: `Access Denied`,
             nav,

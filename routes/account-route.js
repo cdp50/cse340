@@ -5,7 +5,6 @@ const regValidate = require('../utilities/account-validation');
 const accController = require("../controllers/accountController");
 
 router.get("/login/", 
-    utilities.checkClientLogin, 
     utilities.handleErrors(accController.buildLogin));
 
 router.get("/error/", 
@@ -33,8 +32,8 @@ router.post(
 
 // Middleware to check token validity, then, logs the client in
 router.get("/", 
-    utilities.checkJWTToken, 
-    utilities.jwtAuth, 
+    //utilities.checkJWTToken, 
+    //utilities.jwtAuth, 
     utilities.checkClientLogin, 
     utilities.handleErrors(accController.buildManagement))
 

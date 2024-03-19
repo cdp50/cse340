@@ -84,43 +84,83 @@ Util.getDescription = async function (data) {
 /* ****************************************
 * Middleware to check token validity
 **************************************** */
+// Util.checkJWTToken = (req, res, next) => {
+//   jwt.verify(req.cookies.jwt, process.env.ACCESS_TOKEN_SECRET, function (err) {
+//     if (err) {
+//       return res.status(403).redirect("/clients/login")
+//     }
+//   return next()
+//   })
+// }
+
+/* ****************************************
+* Middleware to check token validity
+**************************************** */
 Util.checkJWTToken = (req, res, next) => {
-  jwt.verify(req.cookies.jwt, process.env.ACCESS_TOKEN_SECRET, function (err) {
-    if (err) {
-      return res.status(403).redirect("/clients/login")
-    }
-  return next()
-  })
-}
+  // console.log("checkJWTToken was called at utilities: ")
+  // console.log("req.cookies.jwt: ", req.cookies.jwt)
+  if (req.cookies.jwt) {
+   jwt.verify(
+    req.cookies.jwt,
+    process.env.ACCESS_TOKEN_SECRET,
+    function (err, clientData) {
+     if (err) {
+      //req.flash("Please log in")
+      res.clearCookie("jwt")
+      return res.redirect("/clients/login")
+     }
+     res.locals.clientData = clientData
+     res.locals.loggedin = 1
+     next()
+    })
+  } else {
+   next()
+  }
+ }
 
 /* ****************************************
  *  Authorize JWT Token
  * ************************************ */
-Util.jwtAuth = (req, res, next) => {
-  const token = req.cookies.jwt
-  try {
-    const clientData = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-    req.clientData = clientData
+// Util.jwtAuth = (req, res, next) => {
+//   const token = req.cookies.jwt
+//   try {
+//     const clientData = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+//     req.clientData = clientData
 
-    next()
-  } catch (error){
-    res.clearCookie("jwt", { httpOnly: true })
-    return res.status(403).redirect("/")
-  }
-}
+//     next()
+//   } catch (error){
+//     res.clearCookie("jwt", { httpOnly: true })
+//     return res.status(403).redirect("/")
+//   }
+// }
 
 /* ****************************************
 * Middleware to check if there is a cookie
 **************************************** */
 
-Util.checkClientLogin = ( req, res, next )=> {
-  if(req.cookies.jwt){
-    res.locals.loggedIn = 1
+// Util.checkClientLogin = ( req, res, next )=> {
+//   if(req.cookies.jwt){
+//     res.locals.loggedIn = 1
+//     next()
+//   }else{
+//     next()
+//   }
+// }
+
+/* ****************************************
+ *  Check Login
+ * ************************************ */
+Util.checkClientLogin = (req, res, next) => {
+  // console.log("checkClientLogin was called at utilities")
+  // console.log("res.locals.loggedin: ", res.locals.loggedin)
+  if (res.locals.loggedin) {
     next()
-  }else{
+  } else {
+    //req.flash("notice", "Please log in.")
+    // return res.redirect("/clients/login")
     next()
   }
-}
+ }
 
 /* ****************************************
  * Middleware For Handling Errors
