@@ -89,6 +89,7 @@ invCont.addClassification = async function (req, res, next) {
     let addClassification = "../../inv/add-classification";
     let addVehicle = "../../inv/add-vehicle";
     let nav = await utilities.getNav();
+    let classificationSelect = await utilities.getDropdown()
     if(result){
         res.status(201).render("./inventory/management-view", {
             title: title,
@@ -97,7 +98,7 @@ invCont.addClassification = async function (req, res, next) {
             errors: null,
             addNewClassification: addClassification,
             addNewVehicle: addVehicle,
-            classificationSelect: null
+            classificationSelect
         })
     } else {
         const message = "Sorry, the new classification registration failed."
@@ -108,7 +109,7 @@ invCont.addClassification = async function (req, res, next) {
             errors: null,
             addNewClassification: addClassification,
             addNewVehicle: addVehicle,
-            classificationSelect: null
+            classificationSelect
         })
     }
 }

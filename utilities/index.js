@@ -38,10 +38,8 @@ Util.getNav = async function (req, res, next) {
  ************************** */
 Util.getDropdown = async function (classification_id = null) {
   let data = await invModel.getClassifications()
-  var isSelected = "selected";
-  classification_id != null ? isSelected = "":isSelected = "selected";
   let list = `<select name="classification_id" id="classification_id" required>`
-  list += `<option value='' disabled ${isSelected}>Choose a Classification</option>`
+  list += `<option value=''>Choose a Classification</option>`
   data.rows.forEach((row) => {
     list += `<option value=${row.classification_id} `
     if(classification_id != null && row.classification_id == classification_id){
@@ -53,6 +51,7 @@ Util.getDropdown = async function (classification_id = null) {
   list += '</select>'
   return list
 }
+
 
 /* ************************
 * Constructs the HTML body of the vehicle description
